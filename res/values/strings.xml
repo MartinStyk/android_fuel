@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">FeulApp</string>
+    
+    <!-- TUNAK DOCASNY BORDEL -->
+    <string name="desc_carPic">Car preview - description of image</string>
+    <string name="desc_fillupPic">pump icon</string>
+    <string name="desc_expensePic">service icon</string>
+    <string name="put_here">put here</string>
+    <string name="euro">€</string>
+    <string name="l_100km">l/100km</string>
+    <string name="litre">l</string>
+    <string name="per_litre_symbol">€/l</string>
+    <!-- TUNAK KONCI DOCASNY BORDEL -->
+    
+    <string name="add_fillup_activity_is_full_fillup">Tank is full</string>
+    <string name="add_fillup_activity_btn_add">Add</string>
+    <string name="add_fillup_activity_distance">Distance</string>
+    <string name="add_fillup_activity_price">Price</string>
+    <string name="add_fillup_activity_volume">Fuel Volume</string>
+    <string name="add_fillup_activity_title">Add new fillup</string>
+    <string name="addFillUpActivity_titleUpd">Update Fill-Up of</string>
+    <string name="addFillUpActivity_titleNew">Add new Fill-Up to</string>
+    <string name="addFillUpActivity_Toast_mistake">You have got mistake(s) in field(s)</string>
+    <string name="addFillUpActivity_Toast_emptyFields">One or more fields are empty!</string>
+    <string name="addFillUpActivity_BtnTxt_distFromLastFillUp">From last fill-up</string>
+    <string name="addFillUpActivity_BtnTxt_distanceWhole">Whole Mileage</string>
+    <string name="addFillUpActivity_BtnTxt_priceTotal">Total price</string>
+    <string name="addFillUpActivity_BtnTxt_pricePerLitre">Price per litre</string>
+    <string name="addFillUpActivity_BtnTxt_add">Add</string>
+    <string name="addFillUpActivity_BtnTxt_update">Update</string>
+    <string name="addFillUpActivity_Toast_created">Fill up added successfully</string>
+    <string name="addFillUpActivity_Toast_updated">Fill up updated successfully</string>
+    <string name="addFillUpActivity_Toast_cannotUpdateByWholeDistance">You can\'t update FillUp by changing whole distance travelled! Retype distance as trip!</string>
+    
+    <string name="list_item_fillup_is_full">full</string>
+    <string name="list_item_fillup_txt_avg_symbol">ø</string>
+    <string name="listFillUps_Toast_deleted">Fill up deleted successfully</string>
+    <string name="listFillUps_Dialog_title">Delete</string>
+    <string name="listFillUps_Dialog_msg">Are you sure you want to delete this Fill-Up?</string>
+    <string name="listFillUps_noFillupInTheDatabase">No fill-up available for this car. Add a new one by clicking the add button on the top right</string>
+    <string name="listFillUps_isNotFull">not full</string>
+    <string name="listFillups_isFull">full</string>
+    
+    <string name="add_car_activity_btn_add">Add</string>
+    <string name="add_car_activity_nick">Car Nick</string>
+    <string name="add_car_activity_nick_hint">Enter the familiar name of your vehicle</string>
+    <string name="add_car_activity_type">Car Type or Manufacturer</string>
+    <string name="add_car_activity_type_hint">Enter the name of manufacturer or type name</string>
+    <string name="add_car_activity_mileage">Mileage</string>
+    <string name="add_car_activity_mileage_hint">Enter actual mileage of your car</string>
+    <string name="add_car_activity_title">Add new car</string>
+    <string name="add_car_activity_units">Default Units</string>
+    <string name="add_car_activity_car_type">Select type of your vehicle</string>
+    <string name="add_car_activity_type_prompt">Choose a type</string>
+    <string name="addCarActivity_LOG_badLongNumberFormat">tryed bad number format of Distance travelled</string>
+    <string name="addCarActivity_LOG_wantToAdd">want to add car:</string>
+    <string name="addCarActivity_LOG_added">added car:</string>
+    <string name="addCarActivity_wrong_number_format">Wrong number format</string>
+    <string name="addCarActivity_Toast_added01">Car</string>
+    <string name="addCarActivity_Toast_added02">added</string>
+    <string name="addCarActivity_Toast_emptyFields">There are some empty fields above</string>
+    
+    <string name="list_item_car_txt_avg_symbol">ø</string>
+    <string name="listCarsActivity_noCarInTheDatabase">No car in the database. create new one by clicking the add button at the top right</string>
+    
+    <string name="add_expense_activity_btn_add">Add</string>
+    <string name="add_expense_activity_title">Add new expense</string>
+    <string name="add_expense_activity_price">Price</string>
+    <string name="add_expense_activity_price_hint">Enter price of expense</string>
+    <string name="add_expense_activity_info">Info</string>
+    <string name="add_expense_activity_info_hint">Enter information about expense</string>
+    <string name="add_expense_activity_date">Date</string>
+    <string name="add_expense_activity_date_hint">Click to show date picker</string>
+    <string name="addExpenseActivity_emptyFields">One or more fields are empty!</string>
+    <string name="addExpenseActivity_btnTxt_update">Update</string>
+	<string name="addExpense_Toast_createdSuccessfully">Expense created successfully</string>
+    <string name="addExpense_Toast_updatedSuccessfully">Expense updated successfully</string>
+    
+    <string name="listExpense_noExpenseInTheDatabase">No expense available for this car. Add a new one by clicking the add button on the top right</string>
+    <string name="listExpense_dialog_title">Delete epense</string>
+    <string name="listExpense_dialog_msg">Are you sure you want to delete expense</string>
+    <string name="listExpense_Toast_deleted">Expense deleted successfully</string>
+    
+    <string name="car_update_delete_btn">Delete</string>
+    <string name="car_update_manufacturer">Manufacturer or Type Name</string>
+    <string name="car_update_mileage">Start Mileage</string>
+    <string name="car_update_nick">Nick</string>
+    <string name="car_update_update_btn">Update</string>
+    <string name="car_update_delete_message">I don\'t need this car anymore</string>
+    <string name="updateCarActivity_LOG_badLongNumberFormat">tryed bad number format of Distance travelled</string>
+    <string name="updateCarActivity_LOG_updateBtnClicked">update button clicked</string>
+    <string name="updateCarActivity_LOG_deleteBtnClicked">delete button clicked</string>
+    <string name="updateCarActivity_LOG_dialogConfirm">dialog window confirmed</string>
+    <string name="updateCarActivity_LOG_dialogDecline">dialog window declined</string>
+    <string name="updateCarActivity_wrong_number_format">Wrong number format</string>
+    <string name="updateCarActivity_Toast_carUpdatedSuccesfully01">Car</string>
+    <string name="updateCarActivity_Toast_carUpdatedSuccesfully02">updated successfully</string>
+    <string name="updateCarActivity_Toast_carNoUpdate">No change</string>
+    <string name="updateCarActivity_Toast_carDeleted01">Car</string>
+    <string name="updateCarActivity_Toast_carDeleted02">have been deleted</string>
+    <string name="updateCarActivity_DialogDelete_title">Delete</string>
+    <string name="updateCarActivity_DialogDelete_msg01">Are you sure you want to delete</string>
+    <string name="updateCarActivity_DialogUpdate_title">Car Update Warning</string>
+    <string name="updateCarActivity_DialogUpdate_msg01">You have changed start mileage value from</string>
+    <string name="updateCarActivity_DialogUpdate_msg02">to</string>
+    <string name="updateCarActivity_DialogUpdate_msg03">. This will also change the actual mileage from</string>
+    <string name="updateCarActivity_DialogUpdate_msg04">to</string>
+    <string name="updateCarActivity_DialogUpdate_msg05">. Are you sure you want to update?</string>
+    <string name="updateCarActivity_emptyFields">One or more fields are empty!</string>
+    
+    <string-array name="car_types_arrays">
+        <item>Hatchback</item>
+        <item>Combi</item>
+        <item>Van</item>
+        <item>Motocycle</item>
+        <item>Pickup</item>
+        <item>Quad</item>
+        <item>Sedan</item>
+        <item>Sport</item>
+        <item>Suv</item>
+    </string-array>
+    <string-array name="car_distance_units">
+        <item>kilometres</item>
+        <item>miles</item>
+    </string-array>
+	<string-array name="car_currency">
+        <item>EUR</item>
+        <item>CZK</item>
+    </string-array>
+    
+</resources>
