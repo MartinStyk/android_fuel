@@ -63,7 +63,6 @@ public class UpdateCarActivity extends Activity {
 	}
 	
 	private void initViews(){
-		//mBtnDelete = (Button) findViewById(R.id.btn_carupdate_delete);
 		mNick = (EditText) findViewById(R.id.txt_carupdate_nick);
 		mManufacturer = (EditText) findViewById(R.id.txt_carupdate_manufacturer);
 		mMileage = (EditText) findViewById(R.id.txt_carupdate_mileage);
@@ -73,15 +72,8 @@ public class UpdateCarActivity extends Activity {
 		mNick.setText(mCar.getNick());
 		mManufacturer.setText(mCar.getTypeName());
 		mMileage.setText(mCar.getStartMileage().toString());
-		//mTypeSpinner.setLabelFor(mCar.getCarType().ordinal());
-		mTypeSpinner.setSelection(mCar.getCarType().ordinal() - 1);
-		//docasne riesenie CURRENCIES
-		if(mCar.getDistanceUnit() == Car.CarDistanceUnit.kilometres){
-			mMileageUnit.setText("km");
-		}
-		else{
-			mMileageUnit.setText("mi");
-		}
+		mTypeSpinner.setSelection(mCar.getCarType().ordinal());
+		mMileageUnit.setText(mCar.getDistanceUnitString());
 	}
 	
 	public void onUpdateBtnClick(View v){
@@ -155,12 +147,13 @@ public class UpdateCarActivity extends Activity {
 		mActualMileageToUpdate = mileage - mCar.getStartMileage() + mCar.getActualMileage(); 
 		alertDialogBuilder.setTitle(getString(R.string.updateCarActivity_DialogUpdate_title));
 		alertDialogBuilder.setMessage(getString(R.string.updateCarActivity_DialogUpdate_msg01) + " " 	//you want change from
-				+ mCar.getStartMileage().toString() + " "										//VALUE
+				+ mCar.getStartMileage().toString() + mCar.getDistanceUnitString() + " "				//VALUE
 				+ getString(R.string.updateCarActivity_DialogUpdate_msg02) + " " + mileage.toString()	//to VALUE
+				+ mCar.getDistanceUnitString()
 				+ getString(R.string.updateCarActivity_DialogUpdate_msg03) + " "						//this also change from
-				+ mCar.getActualMileage().toString() + " "										//VALUE
+				+ mCar.getActualMileage().toString() + mCar.getDistanceUnitString() + " "				//VALUE
 				+ getString(R.string.updateCarActivity_DialogUpdate_msg04) + " "						//to
-				+ mActualMileageToUpdate.toString()												//VALUE
+				+ mActualMileageToUpdate.toString() + mCar.getDistanceUnitString()						//VALUE
 				+ getString(R.string.updateCarActivity_DialogUpdate_msg05));							//are you sure?
 		
 		// set positive button YES message

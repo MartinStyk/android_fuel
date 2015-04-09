@@ -43,6 +43,7 @@ public class AddExpenseActivity extends Activity implements OnClickListener {
 	private EditText mTxtInfo;
 	private EditText mTxtPrice;
 	private TextView mTxtDate;
+	private TextView mTxtPriceUnit;
 	private RelativeLayout mLayDate;
 
 	private Button mBtnAdd;
@@ -84,6 +85,7 @@ public class AddExpenseActivity extends Activity implements OnClickListener {
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		
+		mTxtPriceUnit.setText(mSelectedCar.getCurrencyFormatted());
 		if (mode == Mode.UPDATING && savedInstanceState == null) {
 			populateFields();
 		}
@@ -95,7 +97,8 @@ public class AddExpenseActivity extends Activity implements OnClickListener {
 		this.mTxtDate = (TextView) findViewById(R.id.txt_addexpense_date);
 		this.mBtnAdd = (Button) findViewById(R.id.btn_addexpense_add);
 		this.mLayDate = (RelativeLayout) findViewById(R.id.rel_addexpense_lay_date);
-
+		this.mTxtPriceUnit = (TextView) findViewById(R.id.txt_addexpense_priceunit);
+		
 		this.mBtnAdd.setOnClickListener(this);
 		setDateTimeField();
 

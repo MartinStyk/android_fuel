@@ -66,12 +66,13 @@ public static final String TAG = "ListExpensesAdapter";
 		if(currentItem != null) {
 			DecimalFormat bddf = new DecimalFormat();
 			//set views
-			if(mItems.get(0).getCar().getCarCurrency() == Car.CarCurrency.EUR){
+			/*if(mItems.get(0).getCar().getCarCurrency() == Car.CarCurrency.EUR){
 				holder.txtPriceSymbol.setText(" €");
 			}
 			else{
 				holder.txtPriceSymbol.setText(" Kc");
-			}
+			}*/
+			holder.txtPriceSymbol.setText(currentItem.getCar().getCurrencyFormatted());
 			holder.txtInfo.setText(currentItem.getInfo());
 			holder.txtPrice.setText(bddf.format(currentItem.getPrice()));
 			holder.txtDate.setText(currentItem.getDate().getDate() + "."

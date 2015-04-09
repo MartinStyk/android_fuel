@@ -126,7 +126,7 @@ public class ListCarsAdapter extends BaseAdapter {
 			return (int)R.drawable.ic_type_quad;
 		case Sport:
 			return(int) R.drawable.ic_type_sport;
-		case Suv:
+		case SUV:
 			return(int) R.drawable.ic_type_suv;
 
 		default:

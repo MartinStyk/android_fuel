@@ -27,7 +27,8 @@ public class CarManager {
 	private String[] myAllCollums = { DBHelper.COLUMN_CAR_ID,
 			DBHelper.COLUMN_CAR_MANUFACTURERNAME, DBHelper.COLUMN_CAR_TYPENAME,
 			DBHelper.COLUMN_CAR_STARTMILEAGE, DBHelper.COLUMN_CAR_ACTUALMILEAGE, DBHelper.COLUMN_CAR_AVERAGEFUELCONSUMPTION,
-			DBHelper.COLUMN_CAR_TYPE, DBHelper.COLUMN_CAR_DEFAULT_CURRENCY, DBHelper.COLUMN_CAR_DEFAULT_DISTANCE_UNIT };
+			DBHelper.COLUMN_CAR_TYPE, DBHelper.COLUMN_CAR_DEFAULT_CURRENCY,
+			DBHelper.COLUMN_CAR_DEFAULT_DISTANCE_UNIT};
 
 	public CarManager(Context ctx) {
 		myContext = ctx;
@@ -70,6 +71,7 @@ public class CarManager {
 				DBHelper.COLUMN_CAR_ID + " = " + insertId, null, null, null,
 				null);
 		cursor.moveToFirst();
+		Log.w(TAG, "teraz ide CursorToCar");
 		Car newCar = cursorToCar(cursor);
 		cursor.close();
 		return newCar;
@@ -137,7 +139,7 @@ public class CarManager {
 
 			cursor.close();
 		}
-		Log.w(TAG, "getting all cars - CarManager : SUCCESS");
+		Log.w(TAG, "getting all cars - CarManager : SUCCESS, count: " + listCars.size());
 		return listCars;
 	}
 

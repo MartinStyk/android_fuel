@@ -109,7 +109,7 @@ public class CarDataActivity extends FragmentActivity implements ActionBar.TabLi
 
 	public class CollectionPagerAdapter extends FragmentPagerAdapter {
 
-		final int NUM_ITEMS = 2; // number of tabs
+		final int NUM_ITEMS = 3; // number of tabs
 
 		public CollectionPagerAdapter(FragmentManager fm) {
 			super(fm);
@@ -132,6 +132,11 @@ public class CarDataActivity extends FragmentActivity implements ActionBar.TabLi
 				ListExpensesFragment fragment1 = new ListExpensesFragment();
 				fragment1.setArguments(args);
 				return fragment1;
+			case 2:
+				StatisticsFragment fragment2 = new StatisticsFragment();
+				fragment2.setArguments(args);
+				return fragment2;
+					
 			}
 			return null;
 
@@ -149,12 +154,14 @@ public class CarDataActivity extends FragmentActivity implements ActionBar.TabLi
 			String tabLabel = null;
 			switch (position) {
 			case 0:
-				tabLabel = "Fill Ups";
+				tabLabel = getString(R.string.fragmentTitle_fillups);
 				break;
 			case 1:
-				tabLabel = "Expenses";
+				tabLabel = getString(R.string.fragmentTitle_expenses);
 				break;
-
+			case 2:
+				tabLabel = getString(R.string.fragmentTitle_statistics);
+				break;
 			}
 
 			return tabLabel;

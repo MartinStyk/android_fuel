@@ -133,13 +133,6 @@ public class ListCarsActivity extends Activity implements
 		Intent i = new Intent(this, CarDataActivity.class);
 		i.putExtra(EXTRA_ADDED_CAR, clickedCar);
 		startActivityForResult(i, REQUEST_CODE_DELETED_CAR);
-		
-		/*Car clickedCar = mAdapter.getItem(position);
-		Log.d(TAG, "clickedItem : " + clickedCar.getManufacturerName()
-				+ clickedCar.getTypeName());
-		Intent intent = new Intent(this, ListFillUpsActivity.class);
-		intent.putExtra(ListFillUpsActivity.EXTRA_SELECTED_CAR, clickedCar);
-		startActivityForResult(intent, REQUESQ_CODE_REFRESH_CARS);*/
 	}
 
 	@Override
@@ -175,46 +168,4 @@ public class ListCarsActivity extends Activity implements
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
-	/*
-	private void showDeleteDialogConfirmation(final Car clickedCar) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-		alertDialogBuilder.setTitle("Delete");
-		alertDialogBuilder.setMessage("Are you sure you want to delete the \""
-				+ clickedCar.getNick() + " - " + clickedCar.getTypeName()
-				+ "\" car ?");
-
-		// set positive button YES message
-		alertDialogBuilder.setPositiveButton(android.R.string.yes,
-				new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// delete the company and refresh the list
-						CarManager mCarManager = new CarManager(getBaseContext());
-						if (mCarManager != null) {
-							mCarManager.deleteCar(clickedCar);
-						}
-
-						dialog.dismiss();
-						setResult(RESULT_OK);
-						finish();
-					}
-				});
-
-		// set neutral button OK
-		alertDialogBuilder.setNeutralButton(android.R.string.no,
-				new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// Dismiss the dialog
-						dialog.dismiss();
-					}
-				});
-
-		AlertDialog alertDialog = alertDialogBuilder.create();
-		// show alert
-		alertDialog.show();
-	}*/
 }

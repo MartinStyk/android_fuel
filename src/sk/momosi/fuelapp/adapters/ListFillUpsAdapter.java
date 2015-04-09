@@ -5,7 +5,6 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import sk.momosi.fuel.R;
-import sk.momosi.fuelapp.entities.Car;
 import sk.momosi.fuelapp.entities.FillUp;
 
 import android.content.Context;
@@ -27,7 +26,6 @@ public class ListFillUpsAdapter extends BaseAdapter {
 	public ListFillUpsAdapter(Context context, List<FillUp> listFillUps) {
 		this.setItems(listFillUps);
 		this.mInflater = LayoutInflater.from(context);
-		//Log.d(TAG, "tu som");
 	}
 
 	@Override
@@ -76,29 +74,21 @@ public class ListFillUpsAdapter extends BaseAdapter {
 		if(currentItem != null) {
 			//set views
 			holder.txtDistanceFromLastFillUp.setText(currentItem.getDistanceFromLastFillUp().toString());
-			if(mItems.get(0).getFilledCar().getDistanceUnit() == Car.CarDistanceUnit.kilometres){
-				holder.txtConsumptionSymbol.setText("l/100km");
-				holder.txtDriven.setText("km");
-			}
-			else{
-				holder.txtConsumptionSymbol.setText("l/100mi");
-				holder.txtDriven.setText("mi");
-			}
+			holder.txtDriven.setText(currentItem.getFilledCar().getDistanceUnitString());
+			holder.txtConsumptionSymbol.setText("l/100" + currentItem.getFilledCar().getDistanceUnitString());
+			
 			if(currentItem.isFullFillUp()){
 				holder.txtIsFullFillUp.setText(R.string.listFillups_isFull);
 			}
 			else{
 				holder.txtIsFullFillUp.setText(R.string.listFillUps_isNotFull);
 			}
-			if(mItems.get(0).getFilledCar().getCarCurrency() == Car.CarCurrency.EUR){
-				holder.txtPricePerLitreSymbol.setText("€/l");
-				holder.txtPriceTotalSymbol.setText("€");
-			}
-			else{
-				holder.txtPricePerLitreSymbol.setText("Kc/l");
-				holder.txtPriceTotalSymbol.setText("Kc");
-			}
-			//DecimalFormat df = new DecimalFormat("##.##");
+			
+			String currency = " " + currentItem.getFilledCar().getCurrencyFormatted();
+			holder.txtPriceTotalSymbol.setText(currency);
+			currency += "/l";
+			holder.txtPricePerLitreSymbol.setText(currency);
+			
 			DecimalFormat bddf = new DecimalFormat();
 			bddf.setMaximumFractionDigits(2);
 			bddf.setMinimumFractionDigits(0);

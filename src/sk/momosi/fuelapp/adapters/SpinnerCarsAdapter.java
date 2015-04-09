@@ -45,10 +45,10 @@ public class SpinnerCarsAdapter extends BaseAdapter {
 		View v = convertView;
 		ViewHolder holder;
 		if(v == null) {
-			v = mInflater.inflate(R.layout.spinner_item_car, parent, false);
+			v = mInflater.inflate(R.layout.fragment_statistics, parent, false);
 			holder = new ViewHolder();
-			holder.txtCarManufacturerName = (TextView) v.findViewById(R.id.txt_car_manufacturer_name);
-			holder.txtCarTypeName = (TextView) v.findViewById(R.id.txt_car_type_name);
+			holder.txtCarManufacturerName = (TextView) v.findViewById(R.id.txt_statistics_jeden);
+			holder.txtCarTypeName = (TextView) v.findViewById(R.id.txt_statistics_dva);
 			v.setTag(holder);
 		}
 		else {

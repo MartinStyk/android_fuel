@@ -1,6 +1,9 @@
 package sk.momosi.fuelapp.entities;
 
 import java.io.Serializable;
+import java.util.Currency;
+
+import sk.momosi.fuel.R;
 
 public class Car implements Serializable, Cloneable {
 
@@ -41,9 +44,11 @@ public class Car implements Serializable, Cloneable {
 	private Long startMileage;
 	private Long actualMileage;
 	private CarType carType;
-	private CarCurrency carCurrency;
+	private Currency carCurrency;
 	private CarDistanceUnit distanceUnit;
-
+	//private Locale locale;
+	
+	
 	public CarType getCarType() {
 		return carType;
 	}
@@ -110,19 +115,95 @@ public class Car implements Serializable, Cloneable {
 		this.distanceUnit = distanceUnit;
 	}
 
-	public CarCurrency getCarCurrency() {
+	public Currency getCarCurrency() {
 		return carCurrency;
 	}
 
 	public void setCarCurrency(CarCurrency carCurrency) {
-		this.carCurrency = carCurrency;
+		switch (carCurrency){
+		case EUR: this.carCurrency = Currency.getInstance("EUR");
+				//this.locale = getLocale(this.carCurrency.getCurrencyCode());
+				break;
+		case CZK: this.carCurrency = Currency.getInstance("CZK");
+				//this.locale = getLocale(this.carCurrency.getCurrencyCode());
+				break;
+		case USD: this.carCurrency = Currency.getInstance("USD");
+				//this.locale = getLocale(this.carCurrency.getCurrencyCode());
+				break;
+		case PLN: this.carCurrency = Currency.getInstance("PLN");
+				//this.locale = getLocale(this.carCurrency.getCurrencyCode());
+				break;
+		case GBP: this.carCurrency = Currency.getInstance("GBP");
+				//this.locale = getLocale(this.carCurrency.getCurrencyCode());
+				break;
+		case INR: this.carCurrency = Currency.getInstance("INR");
+				//this.locale = getLocale(this.carCurrency.getCurrencyCode());
+				break;
+		case AUD: this.carCurrency = Currency.getInstance("AUD");
+				//this.locale = getLocale(this.carCurrency.getCurrencyCode());
+				break;
+		case CAD: this.carCurrency = Currency.getInstance("CAD");
+				//this.locale = getLocale(this.carCurrency.getCurrencyCode());
+				break;
+		case SGD: this.carCurrency = Currency.getInstance("SGD");
+				//this.locale = getLocale(this.carCurrency.getCurrencyCode());
+				break;
+		case CHF: this.carCurrency = Currency.getInstance("CHF");
+				//this.locale = getLocale(this.carCurrency.getCurrencyCode());
+				break;
+		case MYR: this.carCurrency = Currency.getInstance("MYR");
+				//this.locale = getLocale(this.carCurrency.getCurrencyCode());
+				break;
+		case JPY: this.carCurrency = Currency.getInstance("JPY");
+				//this.locale = getLocale(this.carCurrency.getCurrencyCode());
+				break;
+		case CNY: this.carCurrency = Currency.getInstance("CNY");
+				//this.locale = getLocale(this.carCurrency.getCurrencyCode());
+				break;
+		}
 	}
-
+	
+	public String getCurrencyFormatted(){
+		return this.carCurrency.getSymbol();
+	}
+	
+	public String getDistanceUnitString(){
+		switch (this.distanceUnit){
+		case kilometres: return "km";
+		case miles: return "mi";
+		default: return "km";
+		}
+	}
+	
+	//ZISTI LOCALE Z MENY
+	/*private static Locale getLocale(String strCode) {
+	     
+	    for (Locale locale : NumberFormat.getAvailableLocales()) {
+	        String code = NumberFormat.getCurrencyInstance(locale).getCurrency().getCurrencyCode();
+	        if (strCode.equals(code)) {
+	            return locale;
+	        }
+	    }  
+	    return null;
+	}*/
+	
 	public enum CarType {
-		Sedan, Hatchback, Combi, Van, Motocycle, Pickup, Quad, Sport, Suv,
+		Sedan, Hatchback, Combi, Van, Motocycle, Pickup, Quad, Sport, SUV,
 	}
 	public enum CarCurrency {
-		EUR, CZK,
+		 EUR,
+         CZK,
+         USD,
+         PLN,
+         GBP,
+         INR,
+         AUD,
+         CAD,
+         SGD,
+         CHF,
+         MYR,
+         JPY,
+         CNY,
 	}
 	public enum CarDistanceUnit {
 		kilometres, miles,

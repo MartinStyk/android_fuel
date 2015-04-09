@@ -43,7 +43,15 @@
         <RelativeLayout
             android:id="@+id/rel_lay_price"
             style="@style/WhiteBlockStyle" >
-
+			
+            <TextView
+                android:id="@+id/txt_addexpense_priceunit" 
+                android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:layout_alignParentRight="true"
+            	android:layout_centerVertical="true"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+            
             <EditText
                 android:id="@+id/txt_addexpense_price"
                 android:layout_width="match_parent"

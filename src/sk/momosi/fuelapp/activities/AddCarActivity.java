@@ -104,7 +104,8 @@ public class AddCarActivity extends Activity implements OnClickListener {
 					
 					Log.d(TAG, getString(R.string.addCarActivity_LOG_wantToAdd) + " "
 									+ createdCar.getNick() + "-"
-									+ createdCar.getTypeName());
+									+ createdCar.getTypeName() + ":" + createdCar.getCarType().toString() + ":"
+									+ createdCar.getCarCurrency().toString() + ":" + createdCar.getDistanceUnitString().toString());
 					createdCar = mCarManager.createCar(createdCar);
 
 					Log.d(TAG, getString(R.string.addCarActivity_LOG_added) + " "

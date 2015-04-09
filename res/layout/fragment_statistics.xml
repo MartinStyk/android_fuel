@@ -5,23 +5,28 @@
     android:layout_margin="8dp" >
 
     <TextView
-        android:id="@+id/txt_car_manufacturer_name"
-        android:layout_width="match_parent"
+        android:id="@+id/txt_statistics_jeden"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:text="Jeden"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/txt_car_type_name"
+        android:id="@+id/txt_statistics_dva"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txt_car_manufacturer_name"
+        android:layout_below="@+id/txt_statistics_jeden"
         android:layout_marginTop="4dp"
-        android:autoLink="web"
+        android:text="Dva"
         android:linksClickable="false"
         android:textColor="@android:color/darker_gray" />
 
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="200dip"
+        android:layout_below="@+id/txt_statistics_dva"
+        android:id="@+id/graph" />
 </RelativeLayout>

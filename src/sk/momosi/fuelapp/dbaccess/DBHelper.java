@@ -26,7 +26,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public static final String COLUMN_CAR_TYPE = "car_type"; //6
 	public static final String COLUMN_CAR_DEFAULT_CURRENCY = "car_currency"; //7
 	public static final String COLUMN_CAR_DEFAULT_DISTANCE_UNIT = "car_distance_unit"; //8
-
+	
 	// columns of fill ups table
 	public static final String TABLE_FILLUPS = "fill_ups";
 	public static final String COLUMN_FILLUP_ID = "_id";
@@ -56,6 +56,7 @@ public class DBHelper extends SQLiteOpenHelper {
 				+ COLUMN_CAR_TYPE + " TEXT NOT NULL, "
 				+ COLUMN_CAR_DEFAULT_CURRENCY + " TEXT NOT NULL, "
 				+ COLUMN_CAR_DEFAULT_DISTANCE_UNIT + " TEXT NOT NULL"
+				//+ COLUMN_CAR_DEFAULT_LOCALE + " TEXT NOT NULL"
 				+");" ;
 	
 	//SQL create table fillups

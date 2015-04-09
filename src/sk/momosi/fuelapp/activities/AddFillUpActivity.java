@@ -82,6 +82,12 @@ public class AddFillUpActivity extends Activity implements OnClickListener {
 		
 		// updatujeme a chceme natiahnut to co bolo vo fillupe, nie pri otoceni
 		// obrazovky len prvy krat pri spusteni activity
+	    if(priceMode == SwitchPrice.perLitre){
+	    	mBtnSwitchPrice.setText(R.string.addFillUpActivity_BtnTxt_pricePerLitre);
+	    }
+	    else{
+	    	mBtnSwitchPrice.setText(R.string.addFillUpActivity_BtnTxt_priceTotal);
+	    }
 		if (mode == Mode.UPDATING && savedInstanceState == null) {
 			populateFields();
 		}

@@ -124,17 +124,6 @@ public class ListFillUpsFragment extends ListFragment {
 							}
 							// update Car
 							mCarManager.updateCar(mCar);
-
-							// refresh the listView
-							/*mListFillUps.remove(employee);
-							if (mListFillUps.isEmpty()) {
-								ListViewFillUps.setVisibility(View.GONE);
-								mTxtEmptyListFillUps
-										.setVisibility(View.VISIBLE);
-							}
-
-							mAdapter.setItems(mListFillUps);
-							mAdapter.notifyDataSetChanged();*/
 						}
 
 						dialog.dismiss();
