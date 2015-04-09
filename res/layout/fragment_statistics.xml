@@ -1,32 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dp" >
-
-    <TextView
-        android:id="@+id/txt_statistics_jeden"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="Jeden"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/txt_statistics_dva"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/txt_statistics_jeden"
-        android:layout_marginTop="4dp"
-        android:text="Dva"
-        android:linksClickable="false"
-        android:textColor="@android:color/darker_gray" />
-
-    <com.jjoe64.graphview.GraphView
+    android:layout_margin="8dp"
+    tools:context="${relativePackage}.${activityClass}" >
+    
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dip"
-        android:layout_below="@+id/txt_statistics_dva"
-        android:id="@+id/graph" />
-</RelativeLayout>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="4dp"
+        android:weightSum="2" >
+        
+        <TextView
+        	android:id="@+id/txt_statistics_01"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:linksClickable="false"
+        	android:text="@string/statistics_01"
+        	android:textAppearance="?android:attr/textAppearanceMedium"
+        	android:textStyle="bold" />
+
+    	<com.jjoe64.graphview.GraphView
+        	android:layout_width="match_parent"
+        	android:layout_height="200dip"
+        	android:id="@+id/graph_01" />
+    	
+    	<TextView
+        	android:id="@+id/txt_statistics_02"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:linksClickable="false"
+        	android:text="@string/statistics_02"
+        	android:textAppearance="?android:attr/textAppearanceMedium"
+        	android:textStyle="bold" />
+
+    	<com.jjoe64.graphview.GraphView
+        	android:layout_width="match_parent"
+        	android:layout_height="200dip"
+        	android:id="@+id/graph_02" />
+        
+    </LinearLayout>
+</ScrollView>

@@ -114,6 +114,9 @@
     <string name="updateCarActivity_DialogUpdate_msg05">. Are you sure you want to update?</string>
     <string name="updateCarActivity_emptyFields">One or more fields are empty!</string>
     
+    <string name="statistics_01">Fuel Consumption By Distance travelled:</string>
+    <string name="statistics_02">Zatial to iste:</string>
+    
     <string-array name="car_types_arrays">
         <item>Sedan</item>
         <item>Hatchback</item>
