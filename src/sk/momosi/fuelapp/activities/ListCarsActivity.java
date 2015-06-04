@@ -168,4 +168,11 @@ public class ListCarsActivity extends Activity implements
 	            return super.onOptionsItemSelected(item);
 	    }
 	}
+	
+	@Override
+	public void onRestart(){
+		super.onRestart();
+		finish();
+	    startActivity(getIntent());
+	}
 }

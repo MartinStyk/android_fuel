@@ -82,12 +82,7 @@ public class AddFillUpActivity extends Activity implements OnClickListener {
 		
 		// updatujeme a chceme natiahnut to co bolo vo fillupe, nie pri otoceni
 		// obrazovky len prvy krat pri spusteni activity
-	    if(priceMode == SwitchPrice.perLitre){
-	    	mBtnSwitchPrice.setText(R.string.addFillUpActivity_BtnTxt_pricePerLitre);
-	    }
-	    else{
-	    	mBtnSwitchPrice.setText(R.string.addFillUpActivity_BtnTxt_priceTotal);
-	    }
+	    
 		if (mode == Mode.UPDATING && savedInstanceState == null) {
 			populateFields();
 		}
@@ -95,9 +90,9 @@ public class AddFillUpActivity extends Activity implements OnClickListener {
 
 	private void initViews() {
 		
-		mTxtDistance = (EditText) findViewById(R.id.txt_distance_from_last_fillup_adding);
-		mTxtFuelVolume = (EditText) findViewById(R.id.txt_fuel_volume);
-		mTxtPrice = (EditText) findViewById(R.id.txt_price_total);
+		mTxtDistance = (EditText) findViewById(R.id.txt_addfillup_distance_from_last_fillup_adding);
+		mTxtFuelVolume = (EditText) findViewById(R.id.txt_addfillup_fuel_volume);
+		mTxtPrice = (EditText) findViewById(R.id.txt_addfillup_price_total);
 		mCheckBoxIsFullFill = (CheckBox) findViewById(R.id.checkBox_fullFillUp);
 		mBtnAdd = (Button) findViewById(R.id.btn_add);
 		mBtnSwitchDistance = (Button) findViewById(R.id.btn_switch_distance);
@@ -106,6 +101,13 @@ public class AddFillUpActivity extends Activity implements OnClickListener {
 		mBtnAdd.setOnClickListener(this);
 		mBtnSwitchDistance.setOnClickListener(this);
 		mBtnSwitchPrice.setOnClickListener(this);
+		
+		if(priceMode == SwitchPrice.perLitre){
+	    	mBtnSwitchPrice.setText(R.string.addFillUpActivity_BtnTxt_pricePerLitre);
+	    }
+	    else{
+	    	mBtnSwitchPrice.setText(R.string.addFillUpActivity_BtnTxt_priceTotal);
+	    }
 	}
 
 	private void populateFields() {
@@ -124,6 +126,7 @@ public class AddFillUpActivity extends Activity implements OnClickListener {
 			}else{
 				mCheckBoxIsFullFill.setChecked(false);
 			}
+			mBtnAdd.setText(R.string.add_fillup_activity_btn_update);
 		}
 	}
 
