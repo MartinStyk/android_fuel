@@ -20,6 +20,7 @@
     
     <string name="add_fillup_activity_is_full_fillup">Tank is full</string>
     <string name="add_fillup_activity_btn_add">Add</string>
+    <string name="add_fillup_activity_btn_update">Update</string>
     <string name="add_fillup_activity_distance">Distance</string>
     <string name="add_fillup_activity_price">Price</string>
     <string name="add_fillup_activity_volume">Fuel Volume</string>
@@ -114,8 +115,9 @@
     <string name="updateCarActivity_DialogUpdate_msg05">. Are you sure you want to update?</string>
     <string name="updateCarActivity_emptyFields">One or more fields are empty!</string>
     
-    <string name="statistics_01">Fuel Consumption By Distance travelled:</string>
-    <string name="statistics_02">Zatial to iste:</string>
+    <string name="statistics_empty">There are no statistics to show until you add some fill-ups to this car.</string>
+    <string name="statistics_01">Fuel Consumption By Distance travelled</string>
+    <string name="statistics_02">Fuel Price By Distance travelled</string>
     
     <string-array name="car_types_arrays">
         <item>Sedan</item>
