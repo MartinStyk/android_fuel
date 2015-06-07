@@ -21,6 +21,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ListCarsActivity extends Activity implements
 		OnItemLongClickListener, OnItemClickListener {
@@ -45,19 +46,6 @@ public class ListCarsActivity extends Activity implements
 		setContentView(R.layout.activity_list_cars);
 
 		initViews();
-
-		// fill the listView
-		mCarManager = new CarManager(this);
-		mListCars = mCarManager.getAllCars();
-		
-		//set views
-		if (mListCars != null && !mListCars.isEmpty()) {
-			mAdapter = new ListCarsAdapter(this, mListCars);
-			mListviewCars.setAdapter(mAdapter);
-		} else {
-			mTxtEmptyListCars.setVisibility(View.VISIBLE);
-			mListviewCars.setVisibility(View.GONE);
-		}
 	}
 
 	private void initViews() {
@@ -170,9 +158,30 @@ public class ListCarsActivity extends Activity implements
 	}
 	
 	@Override
+	public void onResume(){
+		refreshCarsList();
+		super.onResume();
+	}
+	
+	private void refreshCarsList(){
+		// fill the listView
+		mCarManager = new CarManager(this);
+		mListCars = mCarManager.getAllCars();
+		
+		//set views
+		if (mListCars != null && !mListCars.isEmpty()) {
+			mAdapter = new ListCarsAdapter(this, mListCars);
+			mListviewCars.setAdapter(mAdapter);
+		} else {
+			mTxtEmptyListCars.setVisibility(View.VISIBLE);
+			mListviewCars.setVisibility(View.GONE);
+		}
+	}
+	
+	/*@Override
 	public void onRestart(){
 		super.onRestart();
 		finish();
 	    startActivity(getIntent());
-	}
+	}*/
 }

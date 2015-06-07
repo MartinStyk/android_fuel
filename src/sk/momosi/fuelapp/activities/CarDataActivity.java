@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 import android.app.ActionBar;
 
 import android.app.FragmentTransaction;
@@ -61,18 +62,19 @@ public class CarDataActivity extends FragmentActivity implements ActionBar.TabLi
 
 	}
 
+	@Override
 	public void onTabUnselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-
 	}
 
+	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 		currentFragmentIndex = tab.getPosition();
 		mViewPager.setCurrentItem(tab.getPosition());
-
 	}
 
+	@Override
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 
@@ -136,17 +138,13 @@ public class CarDataActivity extends FragmentActivity implements ActionBar.TabLi
 				StatisticsFragment fragment2 = new StatisticsFragment();
 				fragment2.setArguments(args);
 				return fragment2;
-					
 			}
 			return null;
-
 		}
 
 		@Override
 		public int getCount() {
-
 			return NUM_ITEMS;
-
 		}
 
 		@Override
@@ -165,9 +163,6 @@ public class CarDataActivity extends FragmentActivity implements ActionBar.TabLi
 			}
 
 			return tabLabel;
-
 		}
 	}
-	
-
 }

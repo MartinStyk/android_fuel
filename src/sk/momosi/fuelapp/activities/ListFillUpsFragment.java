@@ -27,6 +27,8 @@ public class ListFillUpsFragment extends ListFragment {
 	public static final String TAG = "ListFillUpsFragment";
 	public static final int REQUEST_CODE_UPDATE_FILLUP = 30;
 	
+	private Bundle args;
+	
 	private Car mCar;
 	private FillUpManager mFillUpManager;
 	private List<FillUp> listFillUps;
@@ -40,23 +42,19 @@ public class ListFillUpsFragment extends ListFragment {
 		View rootView = inflater.inflate(R.layout.fragment_list_fillups,
 				container, false);
 
-		Bundle args = getArguments();
-		if (args != null) {
+		args = getArguments();
+		/*if (args != null) {
 			mCar = (Car) args.getSerializable(CarDataActivity.CAR_CODE);
 			mFillUpManager = new FillUpManager(getActivity());
 			mCarManager = new CarManager(getActivity());
 
-		}
+		}*/
 		return rootView;
 	}
 
 	@Override
 	public void onResume() {
-		if (mCar != null) {
-			listFillUps = mFillUpManager.getFillUpsOfCar(mCar.getId());
-			mAdapter = new ListFillUpsAdapter(getActivity(), listFillUps);
-			setListAdapter(mAdapter);
-		}
+		refreshList();
 		super.onResume();
 	}
 
@@ -97,7 +95,7 @@ public class ListFillUpsFragment extends ListFragment {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(v.getContext());
 
 		alertDialogBuilder.setTitle(getString(R.string.listFillUps_Dialog_title));
-		alertDialogBuilder.setMessage(getString(R.string.listFillUps_Dialog_msg));
+		alertDialogBuilder.setMessage(getString(R.string.listFillUps_Dialog_msg) + "" + mCar.getStartMileage() + " -> " + mCar.getActualMileage());
 		
 		// set positive button YES message
 		alertDialogBuilder.setPositiveButton(android.R.string.yes,
@@ -128,7 +126,7 @@ public class ListFillUpsFragment extends ListFragment {
 
 						dialog.dismiss();
 						Toast.makeText(getActivity(), R.string.listFillUps_Toast_deleted, Toast.LENGTH_SHORT).show();
-
+						onResume();
 					}
 				});
 
@@ -146,5 +144,19 @@ public class ListFillUpsFragment extends ListFragment {
 		AlertDialog alertDialog = alertDialogBuilder.create();
 		// show alert
 		alertDialog.show();
+	}
+	
+	private void refreshList(){
+		if (args != null) {
+			mCar = (Car) args.getSerializable(CarDataActivity.CAR_CODE);
+			mFillUpManager = new FillUpManager(getActivity());
+			mCarManager = new CarManager(getActivity());
+			mCar = mCarManager.getCarById(mCar.getId());
+		}
+		if(mCar != null && mFillUpManager != null){
+			listFillUps = mFillUpManager.getFillUpsOfCar(mCar.getId());
+			mAdapter = new ListFillUpsAdapter(getActivity(), listFillUps);
+			setListAdapter(mAdapter);
+		}
 	}
 }

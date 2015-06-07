@@ -1,6 +1,7 @@
 package sk.momosi.fuelapp.activities;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -8,21 +9,22 @@ import sk.momosi.fuel.R;
 import android.support.v4.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import sk.momosi.fuelapp.dbaccess.CarManager;
 import sk.momosi.fuelapp.dbaccess.FillUpManager;
 import sk.momosi.fuelapp.entities.Car;
 import sk.momosi.fuelapp.entities.FillUp;
 
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 public class StatisticsFragment extends Fragment{
-	//modifikacia
-	
 	public static final String TAG = "StatisticsFragment";
 	
 	private Car mCar;
@@ -46,23 +48,26 @@ public class StatisticsFragment extends Fragment{
 			Bundle savedInstanceState){
 		
 		Bundle args = getArguments();
+		
 		if(args != null){
 			mCar = (Car) args.getSerializable(CarDataActivity.CAR_CODE);
-			mFillUpManager = new FillUpManager(getActivity());
+			//mFillUpManager = new FillUpManager(getActivity());
 			//mExpenseManager = new ExpenseManager(getActivity());
 		}
-		listFillUps = mFillUpManager.getFillUpsOfCar(mCar.getId());
-		Collections.reverse(listFillUps);
-		count = listFillUps.size();
+		//listFillUps = mFillUpManager.getFillUpsOfCar(mCar.getId());
+		//Collections.reverse(listFillUps);
+		//count = listFillUps.size();
 		
 		View rootView;
-		if(count != 0){
+		//if(count != 0){
 			rootView = inflater.inflate(R.layout.fragment_statistics, container, false);
-			initViews(rootView);
-		}
-		else{
-			rootView = inflater.inflate(R.layout.fragment_statistics_empty,  container, false);
-		}
+			mGraph01 = (GraphView) rootView.findViewById(R.id.graph_01);
+			mGraph02 = (GraphView) rootView.findViewById(R.id.graph_02);
+			refreshData();
+		//}
+		//else{
+		//	rootView = inflater.inflate(R.layout.fragment_statistics_empty,  container, false);
+		//}
 		return rootView;
 	}
 	
@@ -77,13 +82,8 @@ public class StatisticsFragment extends Fragment{
 	    return null;
 	}*/
 	
-	private void initViews(View v){
+	private void refreshData(){
 		if(count != 0){
-			//mJeden = (TextView) v.findViewById(R.id.txt_statistics_01);
-			mGraph01 = (GraphView) v.findViewById(R.id.graph_01);
-			mGraph02 = (GraphView) v.findViewById(R.id.graph_02);
-			
-			//mJeden.setText(mCar.getNick());
 			generateData();
 			
 			Long distance = mCar.getActualMileage() - mCar.getStartMileage();
@@ -108,6 +108,17 @@ public class StatisticsFragment extends Fragment{
 						return super.formatLabel(value, isValueX) + "l/100" + mCar.getDistanceUnitString();
 				}
 			});
+			DisplayMetrics dMetrics = new DisplayMetrics();
+			getActivity().getWindowManager().getDefaultDisplay().getMetrics(dMetrics);
+			int count = dMetrics.widthPixels / 230;
+			List<String> labels = new ArrayList<String>();
+			for(int i = 0; i < count; i++){
+				labels.add(new String(""));
+			}
+			StaticLabelsFormatter labelsFormatter01 = new StaticLabelsFormatter(mGraph01);
+			labelsFormatter01.setHorizontalLabels((String[]) labels.toArray(new String[0]));
+			StaticLabelsFormatter labelsFormatter02 = new StaticLabelsFormatter(mGraph02);
+			labelsFormatter02.setHorizontalLabels((String[]) labels.toArray(new String[0]));
 			
 			mGraph02.getViewport().setYAxisBoundsManual(true);
 			mGraph02.getViewport().setXAxisBoundsManual(true);
@@ -147,6 +158,8 @@ public class StatisticsFragment extends Fragment{
 			LineGraphSeries<DataPoint> series2 = new LineGraphSeries<DataPoint>(values2);
 			
 			series12.setColor(Color.GREEN);
+			mGraph01.removeAllSeries();
+			mGraph02.removeAllSeries();
 			mGraph01.addSeries(series11);
 			mGraph01.addSeries(series12);
 			mGraph02.addSeries(series2);
@@ -184,4 +197,18 @@ public class StatisticsFragment extends Fragment{
             i++;
         }
     }
+	
+	@Override
+	public void onResume(){
+		mFillUpManager = new FillUpManager(getActivity());
+		CarManager carMag = new CarManager(getActivity());
+		mCar = carMag.getCarById(mCar.getId());	//TO DO otestovat, pretoze pri vypocte sa nepouziva aktualna celkova vzdialenost - nezmeni sa ramcek grafu v statistics
+		listFillUps = mFillUpManager.getFillUpsOfCar(mCar.getId());
+		Collections.reverse(listFillUps);
+		count = listFillUps.size();
+		
+		refreshData();
+		//Toast.makeText(getActivity(), "onResume Statistics", Toast.LENGTH_SHORT).show();
+		super.onResume();
+	}
 }

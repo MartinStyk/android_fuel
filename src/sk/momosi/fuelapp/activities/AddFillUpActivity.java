@@ -313,6 +313,7 @@ public class AddFillUpActivity extends Activity implements OnClickListener {
 	protected void onDestroy() {
 		super.onDestroy();
 		mFillUpManager.close();
+		mCarManager.close();
 	}
 
 	enum Mode {

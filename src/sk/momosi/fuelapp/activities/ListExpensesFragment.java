@@ -42,27 +42,23 @@ public class ListExpensesFragment extends ListFragment {
 		if (args != null) {
 			mCar = (Car) args.getSerializable(CarDataActivity.CAR_CODE);
 			mExpenseManager = new ExpenseManager(getActivity());
-
 		}
 		return rootView;
 	}
 
 	@Override
 	public void onResume() {
-		if (mCar != null) {
-			mListExpenses = mExpenseManager.getExpensesOfCar(mCar.getId());
-			mAdapter = new ListExpensesAdapter(getActivity(), mListExpenses);
-			setListAdapter(mAdapter);
-		}
+		refreshList();
 		super.onResume();
 	}
-
+	
+/*	  //zakomentovane z dovodu, ze onResume sa vola aj pri vytvoreni
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		mListExpenses = mExpenseManager.getExpensesOfCar(mCar.getId());
 		mAdapter = new ListExpensesAdapter(getActivity(), mListExpenses);
 		setListAdapter(mAdapter);
-	}
+	}*/
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
@@ -110,6 +106,7 @@ public class ListExpensesFragment extends ListFragment {
 						}
 						dialog.dismiss();
 						Toast.makeText(getActivity(), R.string.listExpense_Toast_deleted, Toast.LENGTH_SHORT).show();
+						onResume();
 					}
 				});
 
@@ -127,5 +124,13 @@ public class ListExpensesFragment extends ListFragment {
 		AlertDialog alertDialog = alertDialogBuilder.create();
 		// show alert
 		alertDialog.show();
+	}
+	
+	private void refreshList(){
+		if (mCar != null && mExpenseManager != null) {
+			mListExpenses = mExpenseManager.getExpensesOfCar(mCar.getId());
+			mAdapter = new ListExpensesAdapter(getActivity(), mListExpenses);
+			setListAdapter(mAdapter);
+		}
 	}
 }
