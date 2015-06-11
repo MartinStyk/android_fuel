@@ -2,15 +2,19 @@ package sk.momosi.fuelapp.activities;
 
 import sk.momosi.fuel.R;
 import sk.momosi.fuelapp.entities.Car;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 import android.app.ActionBar;
 
@@ -18,15 +22,18 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 
 @SuppressWarnings("deprecation")
-public class CarDataActivity extends FragmentActivity implements ActionBar.TabListener {
+public class CarDataActivity extends FragmentActivity implements
+		ActionBar.TabListener {
 
 	public static final String CAR_CODE = "car_to_fragment";
 	public static final int REQUEST_CODE_ADD_FILLUP = 40;
-	
+
 	private Car mCar;
 	private CollectionPagerAdapter mCollectionPagerAdapter;
 	private ViewPager mViewPager;
-	private int currentFragmentIndex=0;
+	private int currentFragmentIndex = 0;
+
+	private Menu menu;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,7 +41,8 @@ public class CarDataActivity extends FragmentActivity implements ActionBar.TabLi
 
 		Intent intent = getIntent();
 		if (intent != null) {
-			mCar = (Car) intent.getSerializableExtra(ListCarsActivity.EXTRA_ADDED_CAR);
+			mCar = (Car) intent
+					.getSerializableExtra(ListCarsActivity.EXTRA_ADDED_CAR);
 			getActionBar().setTitle(mCar.getNick());
 		}
 
@@ -46,7 +54,8 @@ public class CarDataActivity extends FragmentActivity implements ActionBar.TabLi
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mCollectionPagerAdapter);
-		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+		mViewPager
+				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 
 					@Override
 					public void onPageSelected(int position) {
@@ -72,6 +81,15 @@ public class CarDataActivity extends FragmentActivity implements ActionBar.TabLi
 			FragmentTransaction fragmentTransaction) {
 		currentFragmentIndex = tab.getPosition();
 		mViewPager.setCurrentItem(tab.getPosition());
+		//show/hide add button in actionbar menu
+		if (menu != null) {
+			MenuItem item = menu.findItem(R.id.action_add);
+			if (currentFragmentIndex == 2) {
+				item.setVisible(false);
+			} else {
+				item.setVisible(true);
+			}
+		}
 	}
 
 	@Override
@@ -83,6 +101,7 @@ public class CarDataActivity extends FragmentActivity implements ActionBar.TabLi
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu items for use in the action bar
+		this.menu = menu;
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.action_menu_list_fillups, menu);
 		return super.onCreateOptionsMenu(menu);
@@ -93,21 +112,22 @@ public class CarDataActivity extends FragmentActivity implements ActionBar.TabLi
 		// Handle presses on the action bar items
 		switch (item.getItemId()) {
 		case R.id.action_add:
-			if(currentFragmentIndex == 0){
-			Intent intent = new Intent(this, AddFillUpActivity.class);
-			intent.putExtra(AddFillUpActivity.EXTRA_CAR, mCar);
-			startActivityForResult(intent, REQUEST_CODE_ADD_FILLUP);
-			return true;}
-			if(currentFragmentIndex == 1){
+			if (currentFragmentIndex == 0) {
+				Intent intent = new Intent(this, AddFillUpActivity.class);
+				intent.putExtra(AddFillUpActivity.EXTRA_CAR, mCar);
+				startActivityForResult(intent, REQUEST_CODE_ADD_FILLUP);
+				return true;
+			}
+			if (currentFragmentIndex == 1) {
 				Intent intent = new Intent(this, AddExpenseActivity.class);
 				intent.putExtra(AddFillUpActivity.EXTRA_CAR, mCar);
 				startActivity(intent);
-				return true;}
+				return true;
+			}
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
-
 
 	public class CollectionPagerAdapter extends FragmentPagerAdapter {
 
@@ -123,10 +143,9 @@ public class CarDataActivity extends FragmentActivity implements ActionBar.TabLi
 
 			Bundle args = new Bundle();
 			args.putSerializable(CAR_CODE, mCar);
-			
+
 			switch (i) {
 			case 0:
-				
 				ListFillUpsFragment fragment = new ListFillUpsFragment();
 				fragment.setArguments(args);
 				return fragment;
