@@ -246,5 +246,10 @@ public class UpdateCarActivity extends Activity {
 		// show alert
 		alertDialog.show();
 	}
-
+	@Override
+	public Intent getParentActivityIntent() {
+		Intent intent = new Intent(this, ListCarsActivity.class);
+		intent.putExtra(ListCarsActivity.FORCE_SHOW_LIST_CARS, true);
+		return intent;
+	}
 }

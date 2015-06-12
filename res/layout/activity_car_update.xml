@@ -28,8 +28,10 @@
             	android:id="@+id/txt_carupdate_nick"
             	android:layout_width="match_parent"
             	android:layout_height="match_parent"
+            	 android:background="@null"
             	android:layout_centerVertical="true"
-                android:inputType="textCapWords" />
+                android:inputType="textCapWords"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
         </RelativeLayout>
         
         <TextView 
@@ -46,8 +48,10 @@
             	android:id="@+id/txt_carupdate_manufacturer"
             	android:layout_width="match_parent"
             	android:layout_height="match_parent"
+            	 android:background="@null"
             	android:layout_centerVertical="true"
-                android:inputType="textCapWords" />
+                android:inputType="textCapWords"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
         </RelativeLayout>
         
         <TextView 
@@ -72,6 +76,7 @@
             	android:id="@+id/txt_carupdate_mileage"
             	android:layout_width="match_parent"
             	android:layout_height="match_parent"
+            	 android:background="@null"
             	android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/txt_carupdate_unit"
                 android:inputType="number"
@@ -105,11 +110,13 @@
         	android:layout_height="wrap_content"
         	android:gravity="center"
         	android:text="@string/car_update_update_btn"
-        	android:onClick="onUpdateBtnClick"/>
+        	android:onClick="onUpdateBtnClick"
+        	android:textAppearance="?android:attr/textAppearanceMedium"/>
         
         <TextView 
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
+        	android:layout_gravity="center_horizontal"
         	android:text="@string/car_update_delete_message"
         	android:textAppearance="?android:attr/textAppearanceSmall" />
         
@@ -118,7 +125,8 @@
      		android:layout_width="match_parent"
        		android:layout_height="wrap_content"
        		android:text="@string/car_update_delete_btn"
-       		android:onClick="onDeleteBtnClick"/>
+       		android:onClick="onDeleteBtnClick"
+       		android:textAppearance="?android:attr/textAppearanceMedium"/>
     </LinearLayout>
     
 </ScrollView>
