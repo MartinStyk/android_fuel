@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import sk.momosi.fuel.R;
+import sk.momosi.fuelapp.activities.AddFillUpActivity.Mode;
 import sk.momosi.fuelapp.dbaccess.CarManager;
 import sk.momosi.fuelapp.dbaccess.ExpenseManager;
 import sk.momosi.fuelapp.entities.Car;
@@ -76,8 +77,7 @@ public class AddExpenseActivity extends Activity implements OnClickListener {
 		}
 		
 		initViews();
-		ActionBar actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
+		initActionBar();
 		
 		mTxtPriceUnit.setText(mSelectedCar.getCurrencyFormatted());
 		if (mode == Mode.UPDATING && savedInstanceState == null) {
@@ -97,7 +97,15 @@ public class AddExpenseActivity extends Activity implements OnClickListener {
 		setDateTimeField();
 
 	}
-	
+	private void initActionBar(){
+		ActionBar actionBar = getActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
+	    if(mode == Mode.UPDATING){
+	    	actionBar.setTitle("Update expense");
+	    }else{
+	    	actionBar.setTitle("Create expense");
+	    }
+	}
 	private void populateFields() {
 		if (mSelectedExpense != null) {
 			mTxtInfo.setText(mSelectedExpense.getInfo());
@@ -208,7 +216,7 @@ public class AddExpenseActivity extends Activity implements OnClickListener {
 	@Override
 	public Intent getParentActivityIntent() {
 		Intent intent = new Intent(this, ListFillUpsFragment.class);
-		intent.putExtra(AddFillUpActivity.EXTRA_SELECTED_CAR, mSelectedCar);
+		intent.putExtra(ListCarsActivity.EXTRA_ADDED_CAR, mSelectedCar);
 		return intent;
 	}
 	

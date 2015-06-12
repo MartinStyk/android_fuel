@@ -138,5 +138,10 @@ public class AddCarActivity extends Activity implements OnClickListener {
 		super.onDestroy();
 		mCarManager.close();
 	}
-
+	@Override
+	public Intent getParentActivityIntent() {
+		Intent intent = new Intent(this, ListCarsActivity.class);
+		intent.putExtra(ListCarsActivity.FORCE_SHOW_LIST_CARS, true);
+		return intent;
+	}
 }

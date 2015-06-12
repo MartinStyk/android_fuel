@@ -2,7 +2,6 @@ package sk.momosi.fuelapp.activities;
 
 import sk.momosi.fuel.R;
 import sk.momosi.fuelapp.entities.Car;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -13,9 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 import android.app.ActionBar;
 
 import android.app.FragmentTransaction;
@@ -124,11 +120,19 @@ public class CarDataActivity extends FragmentActivity implements
 				startActivity(intent);
 				return true;
 			}
+			return false;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
 
+	@Override
+	public Intent getParentActivityIntent() {
+		Intent intent = new Intent(this, ListCarsActivity.class);
+		intent.putExtra(ListCarsActivity.FORCE_SHOW_LIST_CARS, true);
+		return intent;
+	}
+	
 	public class CollectionPagerAdapter extends FragmentPagerAdapter {
 
 		final int NUM_ITEMS = 3; // number of tabs

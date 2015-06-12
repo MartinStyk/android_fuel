@@ -155,4 +155,7 @@
         <item>CNY</item>
     </string-array>
     
+	<string name="menu_show_last_car">Show last viewed car on startup</string>
+	<string name="menu_about">About</string>
+    
 </resources>

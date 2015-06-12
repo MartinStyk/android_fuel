@@ -41,7 +41,7 @@
         <activity
             android:name="sk.momosi.fuelapp.activities.AddFillUpActivity"
             android:label="@string/add_fillup_activity_title"
-            android:parentActivityName="sk.momosi.fuelapp.activities.ListFillUpsActivity" >
+            android:parentActivityName="sk.momosi.fuelapp.activities.CarDataActivity" >
             
         </activity>
         <activity

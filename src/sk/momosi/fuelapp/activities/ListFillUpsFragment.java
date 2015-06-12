@@ -43,12 +43,11 @@ public class ListFillUpsFragment extends ListFragment {
 				container, false);
 
 		args = getArguments();
-		/*if (args != null) {
+		if (args != null) {
 			mCar = (Car) args.getSerializable(CarDataActivity.CAR_CODE);
 			mFillUpManager = new FillUpManager(getActivity());
 			mCarManager = new CarManager(getActivity());
-
-		}*/
+		}
 		return rootView;
 	}
 

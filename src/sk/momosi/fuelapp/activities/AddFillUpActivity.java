@@ -77,8 +77,7 @@ public class AddFillUpActivity extends Activity implements OnClickListener {
 		}
 
 		initViews();
-		ActionBar actionBar = getActionBar();
-	    actionBar.setDisplayHomeAsUpEnabled(true);
+		initActionBar();
 		
 		// updatujeme a chceme natiahnut to co bolo vo fillupe, nie pri otoceni
 		// obrazovky len prvy krat pri spusteni activity
@@ -110,6 +109,16 @@ public class AddFillUpActivity extends Activity implements OnClickListener {
 	    }
 	}
 
+	private void initActionBar(){
+		ActionBar actionBar = getActionBar();
+	    actionBar.setDisplayHomeAsUpEnabled(true);
+	    if(mode == Mode.UPDATING){
+	    	actionBar.setTitle("Update fillup");
+	    }else{
+	    	actionBar.setTitle("Create fillup");
+	    }
+	}
+	
 	private void populateFields() {
 		if (mSelectedFillUp != null) {
 			mTxtDistance.setText(mSelectedFillUp.getDistanceFromLastFillUp().toString());
@@ -305,7 +314,7 @@ public class AddFillUpActivity extends Activity implements OnClickListener {
 	@Override
 	public Intent getParentActivityIntent() {
 		Intent intent = new Intent(this, ListFillUpsFragment.class);
-		intent.putExtra(EXTRA_SELECTED_CAR, mSelectedCar);
+		intent.putExtra(ListCarsActivity.EXTRA_ADDED_CAR, mSelectedCar);
 		return intent;
 	}
 
