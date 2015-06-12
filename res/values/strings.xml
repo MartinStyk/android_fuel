@@ -51,8 +51,8 @@
     <string name="add_car_activity_btn_add">Add</string>
     <string name="add_car_activity_nick">Car Nick</string>
     <string name="add_car_activity_nick_hint">Enter the familiar name of your vehicle</string>
-    <string name="add_car_activity_type">Car Type or Manufacturer</string>
-    <string name="add_car_activity_type_hint">Enter the name of manufacturer or type name</string>
+    <string name="add_car_activity_type">Car manufacturer and type name</string>
+    <string name="add_car_activity_type_hint">Enter manufacturer and type name</string>
     <string name="add_car_activity_mileage">Mileage</string>
     <string name="add_car_activity_mileage_hint">Enter actual mileage of your car</string>
     <string name="add_car_activity_title">Add new car</string>
@@ -89,7 +89,7 @@
     <string name="listExpense_Toast_deleted">Expense deleted successfully</string>
     
     <string name="car_update_delete_btn">Delete</string>
-    <string name="car_update_manufacturer">Manufacturer or Type Name</string>
+    <string name="car_update_manufacturer">Car manufacturer and type name</string>
     <string name="car_update_mileage">Start Mileage</string>
     <string name="car_update_nick">Nick</string>
     <string name="car_update_update_btn">Update</string>
