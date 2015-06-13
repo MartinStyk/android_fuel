@@ -56,6 +56,16 @@ public class ListFillUpsFragment extends ListFragment {
 		refreshList();
 		super.onResume();
 	}
+	@Override
+	public void onDestroyView(){
+		super.onDestroyView();
+		
+		if(mFillUpManager != null)
+			mFillUpManager.close();
+		
+		if(mCarManager != null)
+			mCarManager.close();
+	}
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {

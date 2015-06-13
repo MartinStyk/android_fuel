@@ -71,12 +71,20 @@ public class FillUpManager {
 
 		long insertId = myDatabase.insert(DBHelper.TABLE_FILLUPS, null, values);
 
-		Cursor cursor = myDatabase.query(DBHelper.TABLE_FILLUPS, myAllCollums,
-				DBHelper.COLUMN_FILLUP_ID + " = " + insertId, null, null, null,
-				null);
-		cursor.moveToFirst();
-		FillUp newFillUp = cursorToFillUp(cursor);
-		cursor.close();
+		Cursor cursor = null;
+		FillUp newFillUp = null;
+		try {
+			cursor = myDatabase.query(DBHelper.TABLE_FILLUPS, myAllCollums,
+					DBHelper.COLUMN_FILLUP_ID + " = " + insertId, null, null,
+					null, null);
+			cursor.moveToFirst();
+			newFillUp = cursorToFillUp(cursor);
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
+
 		return newFillUp;
 	}
 
@@ -111,29 +119,34 @@ public class FillUpManager {
 	public List<FillUp> getAllFillUps() {
 		List<FillUp> listFillUps = new ArrayList<FillUp>();
 
-		Cursor cursor = myDatabase.query(DBHelper.TABLE_FILLUPS, myAllCollums,
-				null, null, null, null, null);
-		if (cursor != null) {
-			cursor.moveToFirst();
+		Cursor cursor = null;
+		try {
+			cursor = myDatabase.query(DBHelper.TABLE_FILLUPS, myAllCollums,
+					null, null, null, null, null);
+			if (cursor != null) {
+				cursor.moveToFirst();
 
-			while (!cursor.isAfterLast()) {
-				FillUp fu = cursorToFillUp(cursor);
-				listFillUps.add(0, fu);
-				cursor.moveToNext();
+				while (!cursor.isAfterLast()) {
+					FillUp fu = cursorToFillUp(cursor);
+					listFillUps.add(0, fu);
+					cursor.moveToNext();
+				}
 			}
-
-			cursor.close();
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
 		}
 		return listFillUps;
 	}
-	
+
 	public double getFuel(Car car) {
 		List<FillUp> listFillUps = new ArrayList<FillUp>();
 		listFillUps = getAllFillUps();
 		double fuelAll = 0d;
-		for (FillUp now : listFillUps){
-			if(now.getFilledCar().equals(car)) {
-			    fuelAll += now.getFuelVolume();
+		for (FillUp now : listFillUps) {
+			if (now.getFilledCar().equals(car)) {
+				fuelAll += now.getFuelVolume();
 			}
 		}
 		return fuelAll;
@@ -148,31 +161,42 @@ public class FillUpManager {
 	public List<FillUp> getFillUpsOfCar(long carId) {
 		List<FillUp> listFillUps = new ArrayList<FillUp>();
 
-		Cursor cursor = myDatabase.query(DBHelper.TABLE_FILLUPS, myAllCollums,
-				DBHelper.COLUMN_FILLUP_CAR_ID + " = ?",
-				new String[] { String.valueOf(carId) }, null, null, null);
+		Cursor cursor = null;
+		try {
+			cursor = myDatabase.query(DBHelper.TABLE_FILLUPS, myAllCollums,
+					DBHelper.COLUMN_FILLUP_CAR_ID + " = ?",
+					new String[] { String.valueOf(carId) }, null, null, null);
 
-		cursor.moveToFirst();
-		while (!cursor.isAfterLast()) {
-			FillUp fillUp = cursorToFillUp(cursor);
-			listFillUps.add(0, fillUp);
-			cursor.moveToNext();
+			cursor.moveToFirst();
+			while (!cursor.isAfterLast()) {
+				FillUp fillUp = cursorToFillUp(cursor);
+				listFillUps.add(0, fillUp);
+				cursor.moveToNext();
+			}
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
 		}
-		// make sure to close the cursor
-		cursor.close();
 		return listFillUps;
 	}
 
 	public FillUp getFillUpById(long id) {
 		FillUp fillUp = null;
-		Cursor cursor = myDatabase.query(DBHelper.TABLE_FILLUPS, myAllCollums,
-				DBHelper.COLUMN_FILLUP_ID + " = ?",
-				new String[] { String.valueOf(id) }, null, null, null);
-		if (cursor != null) {
-			cursor.moveToFirst();
+		Cursor cursor = null;
+		try {
+			cursor = myDatabase.query(DBHelper.TABLE_FILLUPS, myAllCollums,
+					DBHelper.COLUMN_FILLUP_ID + " = ?",
+					new String[] { String.valueOf(id) }, null, null, null);
+			if (cursor != null) {
+				cursor.moveToFirst();
 
-			fillUp = cursorToFillUp(cursor);
-			cursor.close();
+				fillUp = cursorToFillUp(cursor);
+			}
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
 		}
 		return fillUp;
 	}
@@ -192,6 +216,7 @@ public class FillUpManager {
 			// get Car
 			CarManager carMngr = new CarManager(myContext);
 			myFillUp.setFilledCar(carMngr.getCarById(cursor.getLong(6)));
+			carMngr.close();
 
 			return myFillUp;
 		}

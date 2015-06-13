@@ -212,6 +212,7 @@ public class AddExpenseActivity extends Activity implements OnClickListener {
 	protected void onDestroy() {
 		super.onDestroy();
 		mExpenseManager.close();
+		mCarManager.close();
 	}
 	@Override
 	public Intent getParentActivityIntent() {

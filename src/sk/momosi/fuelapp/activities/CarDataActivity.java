@@ -46,7 +46,7 @@ public class CarDataActivity extends FragmentActivity implements
 				getSupportFragmentManager());
 
 		final ActionBar actionBar = getActionBar();
-		actionBar.setHomeButtonEnabled(true);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mCollectionPagerAdapter);
@@ -128,7 +128,7 @@ public class CarDataActivity extends FragmentActivity implements
 
 	@Override
 	public Intent getParentActivityIntent() {
-		Intent intent = new Intent(this, ListCarsActivity.class);
+		Intent intent = new Intent(this, AddCarActivity.class);
 		intent.putExtra(ListCarsActivity.FORCE_SHOW_LIST_CARS, true);
 		return intent;
 	}

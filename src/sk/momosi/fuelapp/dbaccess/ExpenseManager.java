@@ -25,7 +25,7 @@ public class ExpenseManager {
 	private Context myContext;
 	private String[] myAllCollums = { DBHelper.COLUMN_EXPENSE_ID,
 			DBHelper.COLUMN_EXPENSE_PRICE, DBHelper.COLUMN_EXPENSE_INFO,
-			DBHelper.COLUMN_EXPENSE_DATE,DBHelper.COLUMN_EXPENSE_CAR_ID };
+			DBHelper.COLUMN_EXPENSE_DATE, DBHelper.COLUMN_EXPENSE_CAR_ID };
 
 	public ExpenseManager(Context ctx) {
 		myContext = ctx;
@@ -64,13 +64,19 @@ public class ExpenseManager {
 
 		long insertId = myDatabase
 				.insert(DBHelper.TABLE_EXPENSES, null, values);
-
-		Cursor cursor = myDatabase.query(DBHelper.TABLE_EXPENSES, myAllCollums,
-				DBHelper.COLUMN_EXPENSE_ID + " = " + insertId, null, null,
-				null, null);
-		cursor.moveToFirst();
-		Expense newExpense = cursorToExpense(cursor);
-		cursor.close();
+		Cursor cursor = null;
+		Expense newExpense;
+		try {
+			cursor = myDatabase.query(DBHelper.TABLE_EXPENSES, myAllCollums,
+					DBHelper.COLUMN_EXPENSE_ID + " = " + insertId, null, null,
+					null, null);
+			cursor.moveToFirst();
+			newExpense = cursorToExpense(cursor);
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
 		return newExpense;
 	}
 
@@ -85,33 +91,33 @@ public class ExpenseManager {
 				sdf.format(myExpense.getDate()));
 
 		values.put(DBHelper.COLUMN_EXPENSE_CAR_ID, myExpense.getCar().getId());
-		myDatabase
-				.update(DBHelper.TABLE_EXPENSES,
-						values,
-						DBHelper.COLUMN_EXPENSE_ID + "="
-								+ myExpense.getId(), null);
+		myDatabase.update(DBHelper.TABLE_EXPENSES, values,
+				DBHelper.COLUMN_EXPENSE_ID + "=" + myExpense.getId(), null);
 
 	}
 
 	public List<Expense> getAllExpenses() {
 		List<Expense> listExpenses = new ArrayList<Expense>();
+		Cursor cursor = null;
+		try {
+			cursor = myDatabase.query(DBHelper.TABLE_EXPENSES, myAllCollums,
+					null, null, null, null, null);
+			if (cursor != null) {
+				cursor.moveToFirst();
 
-		Cursor cursor = myDatabase.query(DBHelper.TABLE_EXPENSES, myAllCollums,
-				null, null, null, null, null);
-		if (cursor != null) {
-			cursor.moveToFirst();
-
-			while (!cursor.isAfterLast()) {
-				Expense e = cursorToExpense(cursor);
-				listExpenses.add(0, e);
-				cursor.moveToNext();
+				while (!cursor.isAfterLast()) {
+					Expense e = cursorToExpense(cursor);
+					listExpenses.add(0, e);
+					cursor.moveToNext();
+				}
 			}
-
-			cursor.close();
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
 		}
 		return listExpenses;
 	}
-
 
 	public void deleteExpense(Expense myExpense) {
 		long id = myExpense.getId();
@@ -121,32 +127,41 @@ public class ExpenseManager {
 
 	public List<Expense> getExpensesOfCar(long carId) {
 		List<Expense> lisExpenses = new ArrayList<Expense>();
+		Cursor cursor = null;
+		try {
+			cursor = myDatabase.query(DBHelper.TABLE_EXPENSES, myAllCollums,
+					DBHelper.COLUMN_EXPENSE_CAR_ID + " = ?",
+					new String[] { String.valueOf(carId) }, null, null, null);
 
-		Cursor cursor = myDatabase.query(DBHelper.TABLE_EXPENSES, myAllCollums,
-				DBHelper.COLUMN_EXPENSE_CAR_ID + " = ?",
-				new String[] { String.valueOf(carId) }, null, null, null);
-
-		cursor.moveToFirst();
-		while (!cursor.isAfterLast()) {
-			Expense expense = cursorToExpense(cursor);
-			lisExpenses.add(0, expense);
-			cursor.moveToNext();
+			cursor.moveToFirst();
+			while (!cursor.isAfterLast()) {
+				Expense expense = cursorToExpense(cursor);
+				lisExpenses.add(0, expense);
+				cursor.moveToNext();
+			}
+		} finally {
+			if (cursor != null)
+				cursor.close();
 		}
-		// make sure to close the cursor
-		cursor.close();
 		return lisExpenses;
 	}
 
 	public Expense getExpenseById(long id) {
 		Expense expense = null;
-		Cursor cursor = myDatabase.query(DBHelper.TABLE_EXPENSES, myAllCollums,
+		Cursor cursor = null;
+		
+		try{ cursor = myDatabase.query(DBHelper.TABLE_EXPENSES, myAllCollums,
 				DBHelper.COLUMN_EXPENSE_ID + " = ?",
 				new String[] { String.valueOf(id) }, null, null, null);
 		if (cursor != null) {
 			cursor.moveToFirst();
 
 			expense = cursorToExpense(cursor);
-			cursor.close();
+
+		}}finally{
+			if(cursor != null){
+				cursor.close();
+			}
 		}
 		return expense;
 	}
@@ -168,6 +183,7 @@ public class ExpenseManager {
 
 			CarManager carMngr = new CarManager(myContext);
 			my.setCar(carMngr.getCarById(cursor.getLong(4)));
+			carMngr.close();
 
 			return my;
 		}

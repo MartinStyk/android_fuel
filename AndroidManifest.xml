@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="16"
         android:targetSdkVersion="21" />
 
     <application
@@ -24,14 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <activity
-            android:name="sk.momosi.fuelapp.activities.ListFillUpsActivity"
-            android:label="@string/app_name"
-            android:parentActivityName="sk.momosi.fuelapp.activities.ListCarsActivity" >
-            
-        </activity>
-        
+                
         <activity
             android:name="sk.momosi.fuelapp.activities.AddCarActivity"
             android:label="@string/add_car_activity_title" 
@@ -41,7 +34,7 @@
         <activity
             android:name="sk.momosi.fuelapp.activities.AddFillUpActivity"
             android:label="@string/add_fillup_activity_title"
-            android:parentActivityName="sk.momosi.fuelapp.activities.CarDataActivity" >
+            android:parentActivityName="sk.momosi.fuelapp.activities.ListCarsActivity" >
             
         </activity>
         <activity
@@ -53,8 +46,7 @@
         
          <activity
             android:name="sk.momosi.fuelapp.activities.CarDataActivity"
-            android:label="@string/app_name"
-            android:parentActivityName="sk.momosi.fuelapp.activities.ListCarsActivity" >
+            android:label="@string/app_name" >
            
         </activity>
         <activity

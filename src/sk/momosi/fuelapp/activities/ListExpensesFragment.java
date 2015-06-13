@@ -51,7 +51,12 @@ public class ListExpensesFragment extends ListFragment {
 		refreshList();
 		super.onResume();
 	}
-	
+	@Override
+	public void onDestroyView(){
+		super.onDestroyView();
+		if(mExpenseManager != null)
+			mExpenseManager.close();
+	}
 /*	  //zakomentovane z dovodu, ze onResume sa vola aj pri vytvoreni
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {

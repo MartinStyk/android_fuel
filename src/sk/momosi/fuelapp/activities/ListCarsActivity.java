@@ -125,7 +125,8 @@ public class ListCarsActivity extends Activity implements
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		mCarManager.close();
+		if(mCarManager != null)
+			mCarManager.close();
 	}
 
 	@Override

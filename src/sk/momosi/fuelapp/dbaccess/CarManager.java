@@ -26,9 +26,11 @@ public class CarManager {
 	private Context myContext;
 	private String[] myAllCollums = { DBHelper.COLUMN_CAR_ID,
 			DBHelper.COLUMN_CAR_MANUFACTURERNAME, DBHelper.COLUMN_CAR_TYPENAME,
-			DBHelper.COLUMN_CAR_STARTMILEAGE, DBHelper.COLUMN_CAR_ACTUALMILEAGE, DBHelper.COLUMN_CAR_AVERAGEFUELCONSUMPTION,
+			DBHelper.COLUMN_CAR_STARTMILEAGE,
+			DBHelper.COLUMN_CAR_ACTUALMILEAGE,
+			DBHelper.COLUMN_CAR_AVERAGEFUELCONSUMPTION,
 			DBHelper.COLUMN_CAR_TYPE, DBHelper.COLUMN_CAR_DEFAULT_CURRENCY,
-			DBHelper.COLUMN_CAR_DEFAULT_DISTANCE_UNIT};
+			DBHelper.COLUMN_CAR_DEFAULT_DISTANCE_UNIT };
 
 	public CarManager(Context ctx) {
 		myContext = ctx;
@@ -60,36 +62,50 @@ public class CarManager {
 		values.put(DBHelper.COLUMN_CAR_TYPENAME, myCar.getTypeName());
 		values.put(DBHelper.COLUMN_CAR_STARTMILEAGE, myCar.getStartMileage());
 		values.put(DBHelper.COLUMN_CAR_ACTUALMILEAGE, myCar.getActualMileage());
-		values.put(DBHelper.COLUMN_CAR_AVERAGEFUELCONSUMPTION, myCar.getAvgFuelConsumption());
+		values.put(DBHelper.COLUMN_CAR_AVERAGEFUELCONSUMPTION,
+				myCar.getAvgFuelConsumption());
 		values.put(DBHelper.COLUMN_CAR_TYPE, myCar.getCarType().toString());
-		values.put(DBHelper.COLUMN_CAR_DEFAULT_CURRENCY, myCar.getCarCurrency().toString());
-		values.put(DBHelper.COLUMN_CAR_DEFAULT_DISTANCE_UNIT, myCar.getDistanceUnit().toString());
+		values.put(DBHelper.COLUMN_CAR_DEFAULT_CURRENCY, myCar.getCarCurrency()
+				.toString());
+		values.put(DBHelper.COLUMN_CAR_DEFAULT_DISTANCE_UNIT, myCar
+				.getDistanceUnit().toString());
 
 		long insertId = myDatabase.insert(DBHelper.TABLE_CARS, null, values);
 
-		Cursor cursor = myDatabase.query(DBHelper.TABLE_CARS, myAllCollums,
-				DBHelper.COLUMN_CAR_ID + " = " + insertId, null, null, null,
-				null);
-		cursor.moveToFirst();
-		Log.w(TAG, "teraz ide CursorToCar");
-		Car newCar = cursorToCar(cursor);
-		cursor.close();
+		Cursor cursor = null;
+		Car newCar;
+		try {
+			cursor = myDatabase.query(DBHelper.TABLE_CARS, myAllCollums,
+					DBHelper.COLUMN_CAR_ID + " = " + insertId, null, null,
+					null, null);
+			cursor.moveToFirst();
+			Log.w(TAG, "teraz ide CursorToCar");
+			newCar = cursorToCar(cursor);
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
+		}
 		return newCar;
 	}
-	
+
 	public void updateCar(Car myCar) {
-		
+
 		ContentValues values = new ContentValues();
 		values.put(DBHelper.COLUMN_CAR_MANUFACTURERNAME, myCar.getNick());
 		values.put(DBHelper.COLUMN_CAR_TYPENAME, myCar.getTypeName());
 		values.put(DBHelper.COLUMN_CAR_STARTMILEAGE, myCar.getStartMileage());
 		values.put(DBHelper.COLUMN_CAR_ACTUALMILEAGE, myCar.getActualMileage());
-		values.put(DBHelper.COLUMN_CAR_AVERAGEFUELCONSUMPTION, myCar.getAvgFuelConsumption());
+		values.put(DBHelper.COLUMN_CAR_AVERAGEFUELCONSUMPTION,
+				myCar.getAvgFuelConsumption());
 		values.put(DBHelper.COLUMN_CAR_TYPE, myCar.getCarType().toString());
-		values.put(DBHelper.COLUMN_CAR_DEFAULT_CURRENCY, myCar.getCarCurrency().toString());
-		values.put(DBHelper.COLUMN_CAR_DEFAULT_DISTANCE_UNIT, myCar.getDistanceUnit().toString());
-		
-		myDatabase.update(DBHelper.TABLE_CARS, values, DBHelper.COLUMN_CAR_ID + "=" + myCar.getId(), null);
+		values.put(DBHelper.COLUMN_CAR_DEFAULT_CURRENCY, myCar.getCarCurrency()
+				.toString());
+		values.put(DBHelper.COLUMN_CAR_DEFAULT_DISTANCE_UNIT, myCar
+				.getDistanceUnit().toString());
+
+		myDatabase.update(DBHelper.TABLE_CARS, values, DBHelper.COLUMN_CAR_ID
+				+ "=" + myCar.getId(), null);
 	}
 
 	public void deleteCar(Car myCar) {
@@ -105,9 +121,9 @@ public class CarManager {
 				fillUpMng.deleteFillUp(entry);
 			}
 		}
-		
-		//delete expenses of this car
-		
+
+		// delete expenses of this car
+
 		ExpenseManager expenseMng = new ExpenseManager(myContext);
 		List<Expense> allExpenses = expenseMng.getExpensesOfCar(id);
 		if (allExpenses != null && !allExpenses.isEmpty()) {
@@ -115,45 +131,57 @@ public class CarManager {
 				expenseMng.deleteExpense(entry);
 			}
 		}
-		
 
 		// delete car
 		myDatabase.delete(DBHelper.TABLE_CARS, DBHelper.COLUMN_CAR_ID + " = "
 				+ id, null);
+
+		fillUpMng.close();
+		expenseMng.close();
 	}
 
 	public List<Car> getAllCars() {
 		List<Car> listCars = new ArrayList<Car>();
-
+		Cursor cursor = null;
 		Log.w(TAG, "getting all cars - CarManager");
-		Cursor cursor = myDatabase.query(DBHelper.TABLE_CARS, myAllCollums,
-				null, null, null, null, null);
-		if (cursor != null) {
-			cursor.moveToFirst();
 
-			while (!cursor.isAfterLast()) {
-				Car car = cursorToCar(cursor);
-				listCars.add(car);
-				cursor.moveToNext();
+		try {
+			cursor = myDatabase.query(DBHelper.TABLE_CARS, myAllCollums, null,
+					null, null, null, null);
+			if (cursor != null) {
+				cursor.moveToFirst();
+
+				while (!cursor.isAfterLast()) {
+					Car car = cursorToCar(cursor);
+					listCars.add(car);
+					cursor.moveToNext();
+				}
 			}
-
-			cursor.close();
+		} finally {
+			if (cursor != null)
+				cursor.close();
 		}
-		Log.w(TAG, "getting all cars - CarManager : SUCCESS, count: " + listCars.size());
+		Log.w(TAG, "getting all cars - CarManager : SUCCESS, count: "
+				+ listCars.size());
 		return listCars;
 	}
 
 	public Car getCarById(long id) {
 
 		Car car = null;
-		Cursor cursor = myDatabase.query(DBHelper.TABLE_CARS, myAllCollums,
-				DBHelper.COLUMN_CAR_ID + " = ?",
-				new String[] { String.valueOf(id) }, null, null, null);
-		if (cursor != null) {
-			cursor.moveToFirst();
+		Cursor cursor = null;
+		try {
+			cursor = myDatabase.query(DBHelper.TABLE_CARS, myAllCollums,
+					DBHelper.COLUMN_CAR_ID + " = ?",
+					new String[] { String.valueOf(id) }, null, null, null);
+			if (cursor != null) {
+				cursor.moveToFirst();
 
-			car = cursorToCar(cursor);
-			cursor.close();
+				car = cursorToCar(cursor);
+			}
+		} finally {
+			if (cursor != null)
+				cursor.close();
 		}
 		return car;
 	}
@@ -169,9 +197,9 @@ public class CarManager {
 			myCar.setStartMileage(cursor.getLong(3));
 			myCar.setActualMileage(cursor.getLong(4));
 			myCar.setAvgFuelConsumption(cursor.getDouble(5));
-			myCar.setCarType(CarType.valueOf( (cursor.getString(6) ) ));
-			myCar.setCarCurrency(CarCurrency.valueOf( (cursor.getString(7) ) ));
-			myCar.setDistanceUnit(CarDistanceUnit.valueOf( (cursor.getString(8) ) ));
+			myCar.setCarType(CarType.valueOf((cursor.getString(6))));
+			myCar.setCarCurrency(CarCurrency.valueOf((cursor.getString(7))));
+			myCar.setDistanceUnit(CarDistanceUnit.valueOf((cursor.getString(8))));
 			return myCar;
 		}
 

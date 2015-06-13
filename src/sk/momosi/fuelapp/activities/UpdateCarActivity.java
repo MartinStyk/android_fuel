@@ -248,6 +248,14 @@ public class UpdateCarActivity extends Activity {
 	}
 	
 	@Override
+	public void onDestroy(){
+		super.onDestroy();
+		if(mCarManager != null){
+			mCarManager.close();
+		}
+	}
+	
+	@Override
 	public Intent getParentActivityIntent() {
 		Intent intent = new Intent(this, ListCarsActivity.class);
 		intent.putExtra(ListCarsActivity.FORCE_SHOW_LIST_CARS, true);
