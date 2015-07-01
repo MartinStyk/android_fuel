@@ -1,6 +1,7 @@
 package sk.momosi.fuelapp.activities;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -83,6 +84,10 @@ public class AddExpenseActivity extends Activity implements OnClickListener {
 		if (mode == Mode.UPDATING && savedInstanceState == null) {
 			populateFields();
 		}
+		else{
+			Calendar actualDate = Calendar.getInstance();
+			mTxtDate.setText(android.text.format.DateFormat.getDateFormat(getApplicationContext()).format(actualDate.getTime()));
+		}
 	}
 
 	private void initViews() {
@@ -110,9 +115,7 @@ public class AddExpenseActivity extends Activity implements OnClickListener {
 		if (mSelectedExpense != null) {
 			mTxtInfo.setText(mSelectedExpense.getInfo());
 			mTxtPrice.setText(mSelectedExpense.getPrice().toString());
-			mTxtDate.setText(mSelectedExpense.getDate().getDate() + "."
-					+ (mSelectedExpense.getDate().getMonth() + 1) + "."
-					+ (mSelectedExpense.getDate().getYear() + 1900));
+			mTxtDate.setText(android.text.format.DateFormat.getDateFormat(getApplicationContext()).format(mSelectedExpense.getDate().getTime()));
 			mBtnAdd.setText(getString(R.string.addExpenseActivity_btnTxt_update));
 		}
 	}
@@ -120,29 +123,24 @@ public class AddExpenseActivity extends Activity implements OnClickListener {
 	private void setDateTimeField() {
 		mLayDate.setOnClickListener(this);
 	        	        
-	        Calendar serviceDate = Calendar.getInstance();
+	    Calendar serviceDate = Calendar.getInstance();
 	        if(mode == Mode.UPDATING){
-            	serviceDate.set(Calendar.YEAR, mSelectedExpense.getDate().getYear() + 1900);
-            	serviceDate.set(Calendar.DAY_OF_MONTH, mSelectedExpense.getDate().getDate());
-            	serviceDate.set(Calendar.MONTH, mSelectedExpense.getDate().getMonth());
+	        	serviceDate = mSelectedExpense.getDate();
             }
 	        datePickerDialog = new DatePickerDialog(this, new OnDateSetListener() {
 	 
 	            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 	                Calendar serviceDate = Calendar.getInstance();
 	                if(mode == Mode.UPDATING){
-	                	serviceDate.set(Calendar.YEAR, mSelectedExpense.getDate().getYear() + 1900);
-	                	serviceDate.set(Calendar.DAY_OF_MONTH, mSelectedExpense.getDate().getDate());
-	                	serviceDate.set(Calendar.MONTH, mSelectedExpense.getDate().getMonth() + 1);
+	                	serviceDate.set(mSelectedExpense.getDate().get(Calendar.YEAR),
+	                			mSelectedExpense.getDate().get(Calendar.MONTH),
+	                			mSelectedExpense.getDate().get(Calendar.DAY_OF_MONTH));
 	                }
 	                serviceDate.set(year, monthOfYear, dayOfMonth);
-	                SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
-	                mTxtDate.setText(dateFormatter.format(serviceDate.getTime()));
+	                mTxtDate.setText(android.text.format.DateFormat.getDateFormat(getApplicationContext()).format(serviceDate.getTime()));
 	            }
-	 
 	        },serviceDate.get(Calendar.YEAR), serviceDate.get(Calendar.MONTH), serviceDate.get(Calendar.DAY_OF_MONTH));
-	        
-	 }
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -154,11 +152,11 @@ public class AddExpenseActivity extends Activity implements OnClickListener {
 			String date = mTxtDate.getText().toString();
 
 			if (!TextUtils.isEmpty(info) && !TextUtils.isEmpty(price) && !TextUtils.isEmpty(date)) {
-				// add the car to database
-
+				
+				//Toast.makeText(this, "AddExpenseActivity - button click", Toast.LENGTH_LONG).show();	//TO DO delete
 				String msg = null;
 				BigDecimal createdPrice = null;
-				Date createdDate = null;
+				Calendar createdDate = Calendar.getInstance();
 				try {
 					createdPrice = new BigDecimal(price.toString());
 				} catch (NumberFormatException ex) {
@@ -166,8 +164,8 @@ public class AddExpenseActivity extends Activity implements OnClickListener {
 					msg = "price per litre";
 				}
 				try {
-					 SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
-					createdDate = dateFormatter.parse(date.toString());
+					DateFormat dateFormatter = android.text.format.DateFormat.getDateFormat(getApplicationContext());
+					createdDate.setTime(dateFormatter.parse(date));
 				} catch (ParseException ex) {
 					Log.d(TAG, "tried bad date");
 					msg = "price per litre";
@@ -179,10 +177,8 @@ public class AddExpenseActivity extends Activity implements OnClickListener {
 						createdExpense.setInfo(info.toString());
 						createdExpense.setPrice(createdPrice);
 						createdExpense.setCar(mSelectedCar);
-
-						createdExpense = mExpenseManager.createExpense(
-								createdExpense, mSelectedCar);
-
+						
+						createdExpense = mExpenseManager.createExpense(createdExpense, mSelectedCar);
 						Toast.makeText(this, R.string.addExpense_Toast_createdSuccessfully, Toast.LENGTH_LONG).show();
 						finish();
 					}

@@ -1,6 +1,8 @@
 package sk.momosi.fuelapp.adapters;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import sk.momosi.fuel.R;
@@ -16,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class ListExpensesAdapter extends BaseAdapter{
+public class ListExpensesAdapter extends BaseAdapter {
 public static final String TAG = "ListExpensesAdapter";
 	
 	private List<Expense> mItems;
@@ -65,19 +67,12 @@ public static final String TAG = "ListExpensesAdapter";
 		Expense currentItem = getItem(position);
 		if(currentItem != null) {
 			DecimalFormat bddf = new DecimalFormat();
-			//set views
-			/*if(mItems.get(0).getCar().getCarCurrency() == Car.CarCurrency.EUR){
-				holder.txtPriceSymbol.setText(" €");
-			}
-			else{
-				holder.txtPriceSymbol.setText(" Kc");
-			}*/
+			
 			holder.txtPriceSymbol.setText(currentItem.getCar().getCurrencyFormatted());
 			holder.txtInfo.setText(currentItem.getInfo());
 			holder.txtPrice.setText(bddf.format(currentItem.getPrice()));
-			holder.txtDate.setText(currentItem.getDate().getDate() + "."
-					+ (currentItem.getDate().getMonth() + 1) + "."
-					+ (currentItem.getDate().getYear() + 1900));
+			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
+            holder.txtDate.setText(android.text.format.DateFormat.getDateFormat(parent.getContext()).format(currentItem.getDate().getTime()));
 		}
 		return v;
 	}

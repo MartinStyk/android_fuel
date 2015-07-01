@@ -4,20 +4,26 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import sk.momosi.fuel.R;
 import sk.momosi.fuelapp.entities.Car;
 import sk.momosi.fuelapp.entities.Expense;
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.Toast;
 
-public class ExpenseManager {
+public class ExpenseManager extends Activity {
 
 	public static final String TAG = "ExpenseManager";
+	public static final String DATE_FORMAT = "yyyy-MM-dd";
 
 	// DB fields
 	private SQLiteDatabase myDatabase;
@@ -52,13 +58,10 @@ public class ExpenseManager {
 	public Expense createExpense(Expense myExpense, Car car) {
 
 		ContentValues values = new ContentValues();
-		values.put(DBHelper.COLUMN_EXPENSE_PRICE, myExpense.getPrice()
-				.toPlainString());
-		// BigDecimals stored as plain string
+		values.put(DBHelper.COLUMN_EXPENSE_PRICE, myExpense.getPrice().toPlainString());
 		values.put(DBHelper.COLUMN_EXPENSE_INFO, myExpense.getInfo());
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		values.put(DBHelper.COLUMN_EXPENSE_DATE,
-				sdf.format(myExpense.getDate()));
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+		values.put(DBHelper.COLUMN_EXPENSE_DATE, sdf.format(myExpense.getDate().getTime()));
 
 		values.put(DBHelper.COLUMN_EXPENSE_CAR_ID, car.getId());
 
@@ -86,9 +89,9 @@ public class ExpenseManager {
 				.toPlainString());
 		// BigDecimals stored as plain string
 		values.put(DBHelper.COLUMN_EXPENSE_INFO, myExpense.getInfo());
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 		values.put(DBHelper.COLUMN_EXPENSE_DATE,
-				sdf.format(myExpense.getDate()));
+				sdf.format(myExpense.getDate().getTime()));
 
 		values.put(DBHelper.COLUMN_EXPENSE_CAR_ID, myExpense.getCar().getId());
 		myDatabase.update(DBHelper.TABLE_EXPENSES, values,
@@ -166,19 +169,27 @@ public class ExpenseManager {
 		return expense;
 	}
 
+	@SuppressWarnings("deprecation")
 	private Expense cursorToExpense(Cursor cursor) {
 		if (cursor == null)
 			return null;
 		else {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 			Expense my = new Expense();
+			//cursor.get
 			my.setId(cursor.getLong(0));
-			my.setInfo(cursor.getString(2));
 			my.setPrice(new BigDecimal(cursor.getString(1)));
+			my.setInfo(cursor.getString(2));
 			try {
-				my.setDate(sdf.parse(cursor.getString(3)));
+				Calendar cal = Calendar.getInstance();
+				Date expDate = sdf.parse(cursor.getString(3));
+				cal.set(expDate.getYear() + 1900, expDate.getMonth(), expDate.getDate());
+				//cal.setTime(sdf.parse(cursor.getString(3)));
+				my.setDate(cal);
+				//my.setDate(sdf.parse(cursor.getString(3)));
 			} catch (ParseException e) {
-
+				//TO DO delete extension Activity
+				//Toast.makeText(this, R.string.addExpense_Toast_updatedSuccessfully, Toast.LENGTH_LONG).show();
 			}
 
 			CarManager carMngr = new CarManager(myContext);
@@ -187,7 +198,5 @@ public class ExpenseManager {
 
 			return my;
 		}
-
 	}
-
 }

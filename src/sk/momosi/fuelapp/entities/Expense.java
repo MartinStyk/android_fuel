@@ -2,7 +2,7 @@ package sk.momosi.fuelapp.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.Calendar;
 
 public class Expense implements Serializable{
 	
@@ -11,7 +11,7 @@ public class Expense implements Serializable{
 	private BigDecimal price;
 	private long id;
 	private String info;
-	private Date date;
+	private Calendar date;
 	private Car car;
 	
 	public long getId() {
@@ -38,10 +38,10 @@ public class Expense implements Serializable{
 	public void setInfo(String info) {
 		this.info = info;
 	}
-	public Date getDate() {
+	public Calendar getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(Calendar date) {
 		this.date = date;
 	}
 
