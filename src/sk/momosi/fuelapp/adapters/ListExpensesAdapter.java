@@ -1,17 +1,11 @@
 package sk.momosi.fuelapp.adapters;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
-
 import sk.momosi.fuel.R;
-
-import sk.momosi.fuelapp.entities.Car;
 import sk.momosi.fuelapp.entities.Expense;
-
 import android.content.Context;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,8 +65,7 @@ public static final String TAG = "ListExpensesAdapter";
 			holder.txtPriceSymbol.setText(currentItem.getCar().getCurrencyFormatted());
 			holder.txtInfo.setText(currentItem.getInfo());
 			holder.txtPrice.setText(bddf.format(currentItem.getPrice()));
-			SimpleDateFormat dateFormatter = new SimpleDateFormat("dd.MM.yyyy");
-            holder.txtDate.setText(android.text.format.DateFormat.getDateFormat(parent.getContext()).format(currentItem.getDate().getTime()));
+			holder.txtDate.setText(android.text.format.DateFormat.getDateFormat(parent.getContext()).format(currentItem.getDate().getTime()));
 		}
 		return v;
 	}
@@ -82,6 +75,7 @@ public static final String TAG = "ListExpensesAdapter";
 	}
 
 	public void setItems(List<Expense> mItems) {
+		Collections.sort(mItems, new CustomExpenseComparator());
 		this.mItems = mItems;
 	}
 

@@ -8,19 +8,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import sk.momosi.fuel.R;
 import sk.momosi.fuelapp.entities.Car;
 import sk.momosi.fuelapp.entities.Expense;
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.widget.Toast;
 
-public class ExpenseManager extends Activity {
+public class ExpenseManager {
 
 	public static final String TAG = "ExpenseManager";
 	public static final String DATE_FORMAT = "yyyy-MM-dd";
@@ -171,12 +168,13 @@ public class ExpenseManager extends Activity {
 
 	@SuppressWarnings("deprecation")
 	private Expense cursorToExpense(Cursor cursor) {
-		if (cursor == null)
+		if (cursor == null) {
 			return null;
+		}
 		else {
 			SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 			Expense my = new Expense();
-			//cursor.get
+			
 			my.setId(cursor.getLong(0));
 			my.setPrice(new BigDecimal(cursor.getString(1)));
 			my.setInfo(cursor.getString(2));
@@ -184,12 +182,9 @@ public class ExpenseManager extends Activity {
 				Calendar cal = Calendar.getInstance();
 				Date expDate = sdf.parse(cursor.getString(3));
 				cal.set(expDate.getYear() + 1900, expDate.getMonth(), expDate.getDate());
-				//cal.setTime(sdf.parse(cursor.getString(3)));
 				my.setDate(cal);
-				//my.setDate(sdf.parse(cursor.getString(3)));
 			} catch (ParseException e) {
-				//TO DO delete extension Activity
-				//Toast.makeText(this, R.string.addExpense_Toast_updatedSuccessfully, Toast.LENGTH_LONG).show();
+				Log.d(TAG, "Error: ExpenseManager.cursorToExpense :: parsing date");
 			}
 
 			CarManager carMngr = new CarManager(myContext);
