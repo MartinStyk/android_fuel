@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_grey" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/txt_addfillup_distance_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_fillup_activity_distance" 
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+        <RelativeLayout
+            android:id="@+id/rel_lay_distance"
+            style="@style/WhiteBlockStyle" >
+
+            <Button
+                android:id="@+id/btn_switch_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:text="@string/addFillUpActivity_BtnTxt_distFromLastFillUp"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <EditText
+                android:id="@+id/txt_addfillup_distance_from_last_fillup_adding"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/btn_switch_distance"
+                android:background="@null"
+                android:hint="@string/put_here"
+                android:inputType="number"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/black" >
+            </EditText>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txt_addfillup_price_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_fillup_activity_price" 
+            android:textAppearance="?android:attr/textAppearanceSmall"/>
+
+        <RelativeLayout
+            android:id="@+id/rel_lay_price"
+            style="@style/WhiteBlockStyle" >
+
+            <Button
+                android:id="@+id/btn_switch_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:minHeight="0dp"
+                android:minWidth="0dp"
+                android:text="@string/addFillUpActivity_BtnTxt_priceTotal"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <EditText
+                android:id="@+id/txt_addfillup_price_total"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:layout_toLeftOf="@+id/btn_switch_price"
+                android:hint="@string/put_here"
+                android:inputType="numberDecimal"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txt_addfillup_volume_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_fillup_activity_volume"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <RelativeLayout
+            android:id="@+id/rel_lay_volume"
+            style="@style/WhiteBlockStyle" >
+
+            <CheckBox
+                android:id="@+id/checkBox_fullFillUp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:checked="true"
+                 android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/add_fillup_activity_is_full_fillup" />
+            
+             <EditText
+                android:id="@+id/txt_addfillup_fuel_volume"
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/checkBox_fullFillUp"
+                android:hint="@string/put_here"
+                android:inputType="numberDecimal"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/add_fillup_activity_btn_add"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+
+</ScrollView>

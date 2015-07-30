@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
+
+    <!-- Search, should appear as action button -->
+    <item
+        android:id="@+id/action_add"
+        android:icon="@android:drawable/ic_menu_add"
+        android:showAsAction="always"
+        android:title="Add car"/>
+    <item
+        android:id="@+id/action_options"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="prefs">
+        <item
+            android:id="@+id/action_options_show_last"
+            android:checkable="true"
+            android:title="@string/menu_show_last_car">
+        </item>
+        <item
+            android:id="@+id/action_options_about"
+            android:title="@string/menu_about">
+        </item>
+    </item>
+
+</menu>
