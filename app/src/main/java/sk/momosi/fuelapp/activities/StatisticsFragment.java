@@ -15,8 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import sk.momosi.fuelapp.dbaccess.CarManager;
 import sk.momosi.fuelapp.dbaccess.FillUpManager;
-import sk.momosi.fuelapp.entities.Car;
-import sk.momosi.fuelapp.entities.FillUp;
+import sk.momosi.fuelapp.entities.entitiesImpl.Car;
+import sk.momosi.fuelapp.entities.entitiesImpl.FillUp;
 
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;

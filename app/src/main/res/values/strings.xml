@@ -25,6 +25,9 @@
     <string name="add_fillup_activity_price">Price</string>
     <string name="add_fillup_activity_volume">Fuel Volume</string>
     <string name="add_fillup_activity_title">Add new fillup</string>
+    <string name="add_fillup_activity_info">Info</string>
+    <string name="add_fillup_activity_info_hint">Enter additional info about this fill up</string>
+    <string name="add_fillup_activity_date">Date</string>
     <string name="addFillUpActivity_titleUpd">Update Fill-Up of</string>
     <string name="addFillUpActivity_titleNew">Add new Fill-Up to</string>
     <string name="addFillUpActivity_Toast_mistake">You have got mistake(s) in field(s)</string>

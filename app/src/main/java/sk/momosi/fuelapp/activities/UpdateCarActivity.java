@@ -4,8 +4,8 @@ import java.util.Locale;
 
 import sk.momosi.fuel.R;
 import sk.momosi.fuelapp.dbaccess.CarManager;
-import sk.momosi.fuelapp.entities.Car;
-import sk.momosi.fuelapp.entities.Car.CarType;
+import sk.momosi.fuelapp.entities.entitiesImpl.Car;
+import sk.momosi.fuelapp.entities.entitiesImpl.Car.CarType;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;

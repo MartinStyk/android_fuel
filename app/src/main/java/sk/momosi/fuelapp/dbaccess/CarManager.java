@@ -3,12 +3,12 @@ package sk.momosi.fuelapp.dbaccess;
 import java.util.ArrayList;
 import java.util.List;
 
-import sk.momosi.fuelapp.entities.Car;
-import sk.momosi.fuelapp.entities.Car.CarType;
-import sk.momosi.fuelapp.entities.Car.CarCurrency;
-import sk.momosi.fuelapp.entities.Car.CarDistanceUnit;
-import sk.momosi.fuelapp.entities.Expense;
-import sk.momosi.fuelapp.entities.FillUp;
+import sk.momosi.fuelapp.entities.entitiesImpl.Car;
+import sk.momosi.fuelapp.entities.entitiesImpl.Car.CarType;
+import sk.momosi.fuelapp.entities.entitiesImpl.Car.CarCurrency;
+import sk.momosi.fuelapp.entities.entitiesImpl.Car.CarDistanceUnit;
+import sk.momosi.fuelapp.entities.entitiesImpl.Expense;
+import sk.momosi.fuelapp.entities.entitiesImpl.FillUp;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;

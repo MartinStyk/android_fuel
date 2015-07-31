@@ -8,8 +8,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import sk.momosi.fuelapp.entities.Car;
-import sk.momosi.fuelapp.entities.Expense;
+import sk.momosi.fuelapp.entities.entitiesImpl.Car;
+import sk.momosi.fuelapp.entities.entitiesImpl.Expense;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;

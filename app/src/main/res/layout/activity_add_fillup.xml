@@ -121,6 +121,56 @@
                 />
         </RelativeLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_fillup_activity_date"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <RelativeLayout
+            android:id="@+id/rel_addfillup_lay_date"
+            style="@style/WhiteBlockStyle"
+            android:clickable="true" >
+
+            <TextView
+                android:id="@+id/txt_addfillup_date"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:clickable="false"
+                android:hint="@string/add_expense_activity_date_hint"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:freezesText="true">
+
+
+            </TextView>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_fillup_activity_info"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <RelativeLayout
+            android:id="@+id/rel_lay_info"
+            style="@style/WhiteBlockStyle" >
+
+            <EditText
+                android:id="@+id/txt_addfillup_information"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:background="@null"
+                android:hint="@string/add_fillup_activity_info_hint"
+                android:inputType="textCapSentences"
+                android:textAppearance="?android:attr/textAppearanceSmall" >
+
+                <requestFocus />
+            </EditText>
+        </RelativeLayout>
+
         <Button
             android:id="@+id/btn_add"
             android:layout_width="match_parent"

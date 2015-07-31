@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import sk.momosi.fuel.R;
-import sk.momosi.fuelapp.entities.Car;
+import sk.momosi.fuelapp.entities.entitiesImpl.Car;
 
 import android.content.Context;
 import android.view.LayoutInflater;

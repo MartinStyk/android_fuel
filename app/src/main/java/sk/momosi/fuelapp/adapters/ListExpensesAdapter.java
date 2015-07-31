@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
 import sk.momosi.fuel.R;
-import sk.momosi.fuelapp.entities.Expense;
+import sk.momosi.fuelapp.entities.entitiesImpl.Expense;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,7 +75,7 @@ public static final String TAG = "ListExpensesAdapter";
 	}
 
 	public void setItems(List<Expense> mItems) {
-		Collections.sort(mItems, new CustomExpenseComparator());
+		Collections.sort(mItems, new CustomExpenseEntryComparator());
 		this.mItems = mItems;
 	}
 

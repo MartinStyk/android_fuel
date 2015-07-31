@@ -1,9 +1,7 @@
-package sk.momosi.fuelapp.entities;
+package sk.momosi.fuelapp.entities.entitiesImpl;
 
 import java.io.Serializable;
 import java.util.Currency;
-
-import sk.momosi.fuel.R;
 
 public class Car implements Serializable, Cloneable {
 

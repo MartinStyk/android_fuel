@@ -82,7 +82,8 @@
                 android:background="@null"
                 android:clickable="false"
                 android:hint="@string/add_expense_activity_date_hint"
-                android:textAppearance="?android:attr/textAppearanceSmall" >
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:freezesText="true">
 
 
             </TextView>

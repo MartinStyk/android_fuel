@@ -1,7 +1,7 @@
 package sk.momosi.fuelapp.activities;
 
 import sk.momosi.fuel.R;
-import sk.momosi.fuelapp.entities.Car;
+import sk.momosi.fuelapp.entities.entitiesImpl.Car;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -17,7 +17,6 @@ import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 
-@SuppressWarnings("deprecation")
 public class CarDataActivity extends FragmentActivity implements
 		ActionBar.TabListener {
 
