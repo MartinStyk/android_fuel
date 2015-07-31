@@ -103,7 +103,46 @@
                 android:spinnerMode="dropdown"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </RelativeLayout>
-        
+
+        <Button
+            android:id="@+id/btn_takephoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:onClick="onTakePhotoBtnClick"
+            android:paddingBottom="2dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="2dp"
+            android:text="Take photo"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <Button
+            android:id="@+id/btn_selectphoto"
+            android:onClick="onSelectFromGalleryBtnClick"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="2dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="2dp"
+            android:text="Select photo"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ImageView
+            android:id="@+id/img_addcar_car"
+            android:layout_width="200dp"
+            android:layout_height="150dp"
+            android:gravity="center"
+            android:paddingBottom="2dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="2dp"
+            />
+
+
+
         <Button 
         	android:id="@+id/btn_carupdate_update"
         	android:layout_width="match_parent"

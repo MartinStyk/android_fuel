@@ -1,5 +1,6 @@
 package sk.momosi.fuelapp.dbaccess;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 public class CarManager {
@@ -30,7 +33,8 @@ public class CarManager {
 			DBHelper.COLUMN_CAR_ACTUALMILEAGE,
 			DBHelper.COLUMN_CAR_AVERAGEFUELCONSUMPTION,
 			DBHelper.COLUMN_CAR_TYPE, DBHelper.COLUMN_CAR_DEFAULT_CURRENCY,
-			DBHelper.COLUMN_CAR_DEFAULT_DISTANCE_UNIT };
+			DBHelper.COLUMN_CAR_DEFAULT_DISTANCE_UNIT,
+			DBHelper.COLUMN_CAR_IMAGE };
 
 	public CarManager(Context ctx) {
 		myContext = ctx;
@@ -69,6 +73,8 @@ public class CarManager {
 				.toString());
 		values.put(DBHelper.COLUMN_CAR_DEFAULT_DISTANCE_UNIT, myCar
 				.getDistanceUnit().toString());
+		if(myCar.getImage() != null)
+		values.put(DBHelper.COLUMN_CAR_IMAGE, myCar.getImageBytes());
 
 		long insertId = myDatabase.insert(DBHelper.TABLE_CARS, null, values);
 
@@ -103,6 +109,7 @@ public class CarManager {
 				.toString());
 		values.put(DBHelper.COLUMN_CAR_DEFAULT_DISTANCE_UNIT, myCar
 				.getDistanceUnit().toString());
+		values.put(DBHelper.COLUMN_CAR_IMAGE, myCar.getImageBytes());
 
 		myDatabase.update(DBHelper.TABLE_CARS, values, DBHelper.COLUMN_CAR_ID
 				+ "=" + myCar.getId(), null);
@@ -200,8 +207,11 @@ public class CarManager {
 			myCar.setCarType(CarType.valueOf((cursor.getString(6))));
 			myCar.setCarCurrency(CarCurrency.valueOf((cursor.getString(7))));
 			myCar.setDistanceUnit(CarDistanceUnit.valueOf((cursor.getString(8))));
+			myCar.setImage(cursor.getBlob(9));
 			return myCar;
 		}
 
 	}
+
+
 }
