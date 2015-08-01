@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="8dp"
-    tools:context="${relativePackage}.${activityClass}" >
+    tools:context="${relativePackage}.${activityClass}">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
@@ -18,7 +18,7 @@
 
         <RelativeLayout
             android:id="@+id/rel_lay_info"
-            style="@style/WhiteBlockStyle" >
+            style="@style/WhiteBlockStyle">
 
             <EditText
                 android:id="@+id/txt_addexpense_information"
@@ -28,7 +28,7 @@
                 android:background="@null"
                 android:hint="@string/add_expense_activity_info_hint"
                 android:inputType="textCapWords"
-                android:textAppearance="?android:attr/textAppearanceSmall" >
+                android:textAppearance="?android:attr/textAppearanceSmall">
 
                 <requestFocus />
             </EditText>
@@ -42,16 +42,16 @@
 
         <RelativeLayout
             android:id="@+id/rel_lay_price"
-            style="@style/WhiteBlockStyle" >
-			
+            style="@style/WhiteBlockStyle">
+
             <TextView
-                android:id="@+id/txt_addexpense_priceunit" 
+                android:id="@+id/txt_addexpense_priceunit"
                 android:layout_width="wrap_content"
-            	android:layout_height="wrap_content"
-            	android:layout_alignParentRight="true"
-            	android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
-            
+
             <EditText
                 android:id="@+id/txt_addexpense_price"
                 android:layout_width="match_parent"
@@ -62,17 +62,17 @@
                 android:inputType="number"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </RelativeLayout>
-        
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_expense_activity_date"
             android:textAppearance="?android:attr/textAppearanceSmall" />
-        
+
         <RelativeLayout
             android:id="@+id/rel_addexpense_lay_date"
             style="@style/WhiteBlockStyle"
-            android:clickable="true" >
+            android:clickable="true">
 
             <TextView
                 android:id="@+id/txt_addexpense_date"
@@ -81,16 +81,17 @@
                 android:layout_centerVertical="true"
                 android:background="@null"
                 android:clickable="false"
+                android:freezesText="true"
                 android:hint="@string/add_expense_activity_date_hint"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:freezesText="true">
+                android:textAppearance="?android:attr/textAppearanceSmall">
 
 
             </TextView>
         </RelativeLayout>
-        
-         <Button
+
+        <Button
             android:id="@+id/btn_addexpense_add"
+            style="@style/ConfirmButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

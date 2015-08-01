@@ -7,6 +7,7 @@ import sk.momosi.fuel.R;
 import sk.momosi.fuelapp.entities.entitiesImpl.Car;
 
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,13 +36,13 @@ public class ListCarsAdapter extends BaseAdapter {
 	@Override
 	public Car getItem(int position) {
 		return (getItems() != null && !getItems().isEmpty()) ? getItems().get(
-				position) : null;
+                position) : null;
 	}
 
 	@Override
 	public long getItemId(int position) {
 		return (getItems() != null && !getItems().isEmpty()) ? getItems().get(
-				position).getId() : position;
+                position).getId() : position;
 	}
 
 	@Override
@@ -52,6 +53,7 @@ public class ListCarsAdapter extends BaseAdapter {
 			v = mInflater.inflate(R.layout.list_item_car, parent, false);
 			holder = new ViewHolder();
 
+            holder.imgPhoto = (ImageView) v.findViewById(R.id.img_itemcar_photo);
 			holder.imgType = (ImageView) v.findViewById(R.id.img_itemcar_type);
 			holder.txtNick = (TextView) v.findViewById(R.id.txt_itemcar_nick);
 			holder.txtCarTypeName = (TextView) v.findViewById(R.id.txt_itemcar_type_name);
@@ -66,10 +68,15 @@ public class ListCarsAdapter extends BaseAdapter {
 		// fill row data
 		Car currentItem = getItem(position);
 		if (currentItem != null) {
+
+            if(currentItem.getImage() !=null){
+                holder.imgPhoto.setImageBitmap(currentItem.getImage());
+            }
+
 			holder.imgType.setImageResource(getImage(currentItem));
 			holder.txtNick.setText(currentItem.getNick());
 			holder.txtCarTypeName.setText(currentItem.getTypeName());
-			
+
 			String mileage = currentItem.getActualMileage().toString() + " ";
 			if(currentItem.getDistanceUnit() == Car.CarDistanceUnit.kilometres){
 				mileage += "km";
@@ -100,6 +107,7 @@ public class ListCarsAdapter extends BaseAdapter {
 	}
 
 	class ViewHolder {
+        ImageView imgPhoto;
 		ImageView imgType;
 		TextView txtNick;
 		TextView txtCarTypeName;
@@ -109,6 +117,7 @@ public class ListCarsAdapter extends BaseAdapter {
 	}
 
 	private int getImage(Car mCar) {
+
 		switch (mCar.getCarType()) {
 		case Sedan:
 			return (int) R.drawable.ic_type_sedan;

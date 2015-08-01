@@ -41,7 +41,7 @@
         android:layout_toLeftOf="@+id/txt_itemexpense_price_currency"
         android:layout_centerVertical="true"
         android:maxLines="1"
-        android:textColor="@android:color/holo_orange_dark"
+        android:textColor="@color/app_orange"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView

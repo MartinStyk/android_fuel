@@ -68,12 +68,14 @@ public class AddCarActivity extends Activity implements OnClickListener {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
         if (mCurrentPhotoLarge != null)
             outState.putParcelable(PHOTO, mCurrentPhotoLarge);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState.containsKey(PHOTO)) {
             mCurrentPhotoLarge = savedInstanceState.getParcelable(PHOTO);
             ImageView im = (ImageView) findViewById(R.id.img_addcar_car);
@@ -114,81 +116,94 @@ public class AddCarActivity extends Activity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_add:
-                Editable nick = mTxtNick.getText();
-                Editable typeName = mTxtTypeName.getText();
-                Editable actualMileage = mTxtActualMileage.getText();
-
-                if (!TextUtils.isEmpty(nick)
-                        && !TextUtils.isEmpty(typeName)
-                        && !TextUtils.isEmpty(actualMileage)) {
-                    // add the car to database
-                    Car createdCar = new Car();
-                    Long createdMileage = Long.valueOf(0);
-                    String msg = null;
-
-                    try {
-                        createdMileage = Long.parseLong(actualMileage.toString());
-                    } catch (NumberFormatException ex) {
-                        Log.d(TAG, getString(R.string.addCarActivity_LOG_badLongNumberFormat));
-                        msg = getString(R.string.addCarActivity_wrong_number_format);
-                    }
-                    if (msg == null) {
-                        createdCar.setNick(nick.toString());
-                        createdCar.setTypeName(typeName.toString());
-                        createdCar.setStartMileage(createdMileage);
-                        createdCar.setActualMileage(createdMileage);
-                        createdCar.setAvgFuelConsumption(0.0);
-                        createdCar.setCarType(Car.CarType.valueOf(mTypeSpinner.getSelectedItem().toString()));
-                        createdCar.setCarCurrency(Car.CarCurrency.valueOf(mCurrencySpinner.getSelectedItem().toString()));
-                        createdCar.setDistanceUnit(Car.CarDistanceUnit.valueOf(mDistanceSpinner.getSelectedItem().toString()));
-                        createdCar.setImage(mCurrentPhotoLarge);
-
-                        Log.d(TAG, getString(R.string.addCarActivity_LOG_wantToAdd) + " "
-                                + createdCar.getNick() + "-"
-                                + createdCar.getTypeName() + ":" + createdCar.getCarType().toString() + ":"
-                                + createdCar.getCarCurrency().toString() + ":" + createdCar.getDistanceUnitString().toString());
-                        createdCar = mCarManager.createCar(createdCar);
-
-                        Log.d(TAG, getString(R.string.addCarActivity_LOG_added) + " "
-                                + createdCar.getNick() + "-"
-                                + createdCar.getTypeName());
-
-                        Intent intent = new Intent();
-                        intent.putExtra(ListCarsActivity.EXTRA_ADDED_CAR,
-                                createdCar);
-                        setResult(RESULT_OK, intent);
-                        Toast.makeText(this, getString(R.string.addCarActivity_Toast_added01) + " \""
-                                        + createdCar.getNick() + "\" " + getString(R.string.addCarActivity_Toast_added02),
-                                Toast.LENGTH_LONG).show();
-                        finish();
-                    } else {
-                        Toast.makeText(this, msg + "- actualMileage", Toast.LENGTH_LONG).show();
-                    }
-                } else {
-                    Toast.makeText(this, getString(R.string.addCarActivity_Toast_emptyFields), Toast.LENGTH_LONG).show();
-                }
+                saveCar();
                 break;
             case R.id.img_addcar_car:
-                createChooserDialog();
+                createImageChooserDialog();
                 break;
             default:
                 break;
         }
     }
 
-    public void createChooserDialog() {
+    private void saveCar() {
+        Editable nick = mTxtNick.getText();
+        Editable typeName = mTxtTypeName.getText();
+        Editable actualMileage = mTxtActualMileage.getText();
+
+        if (!TextUtils.isEmpty(nick)
+                && !TextUtils.isEmpty(typeName)
+                && !TextUtils.isEmpty(actualMileage)) {
+            // add the car to database
+            Car createdCar = new Car();
+            Long createdMileage = Long.valueOf(0);
+            String msg = null;
+
+            try {
+                createdMileage = Long.parseLong(actualMileage.toString());
+            } catch (NumberFormatException ex) {
+                Log.d(TAG, getString(R.string.addCarActivity_LOG_badLongNumberFormat));
+                msg = getString(R.string.addCarActivity_wrong_number_format);
+            }
+            if (msg == null) {
+                createdCar.setNick(nick.toString());
+                createdCar.setTypeName(typeName.toString());
+                createdCar.setStartMileage(createdMileage);
+                createdCar.setActualMileage(createdMileage);
+                createdCar.setAvgFuelConsumption(0.0);
+                createdCar.setCarType(Car.CarType.valueOf(mTypeSpinner.getSelectedItem().toString()));
+                createdCar.setCarCurrency(Car.CarCurrency.valueOf(mCurrencySpinner.getSelectedItem().toString()));
+                createdCar.setDistanceUnit(Car.CarDistanceUnit.valueOf(mDistanceSpinner.getSelectedItem().toString()));
+                createdCar.setImage(mCurrentPhotoLarge);
+
+                Log.d(TAG, getString(R.string.addCarActivity_LOG_wantToAdd) + " "
+                        + createdCar.getNick() + "-"
+                        + createdCar.getTypeName() + ":" + createdCar.getCarType().toString() + ":"
+                        + createdCar.getCarCurrency().toString() + ":" + createdCar.getDistanceUnitString().toString());
+                createdCar = mCarManager.createCar(createdCar);
+
+                Log.d(TAG, getString(R.string.addCarActivity_LOG_added) + " "
+                        + createdCar.getNick() + "-"
+                        + createdCar.getTypeName());
+
+                Intent intent = new Intent();
+                intent.putExtra(ListCarsActivity.EXTRA_ADDED_CAR,
+                        createdCar);
+                setResult(RESULT_OK, intent);
+                Toast.makeText(this, getString(R.string.addCarActivity_Toast_added01) + " \""
+                                + createdCar.getNick() + "\" " + getString(R.string.addCarActivity_Toast_added02),
+                        Toast.LENGTH_LONG).show();
+                finish();
+            } else {
+                Toast.makeText(this, msg + "- actualMileage", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(this, getString(R.string.addCarActivity_Toast_emptyFields), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void createImageChooserDialog() {
+        final int TAKE_PHOTO = 0;
+        final int SELECT_PHOTO = 1;
+        final int DELETE_PHOTO = 2;
+
+        final CharSequence[] opsWithDelete = {getResources().getString(R.string.add_car_activity_take_photo), getResources().getString(R.string.add_car_activity_select_photo),getResources().getString(R.string.add_car_activity_delete_photo)};
+        final CharSequence[] opsWithOutDelete = {getResources().getString(R.string.add_car_activity_take_photo), getResources().getString(R.string.add_car_activity_select_photo)};
+
+        final CharSequence[] opsChars = mCurrentPhotoLarge == null ? opsWithOutDelete : opsWithDelete;
+
         AlertDialog.Builder getImageFrom = new AlertDialog.Builder(this);
         getImageFrom.setTitle("Select:");
-        final CharSequence[] opsChars = {getResources().getString(R.string.add_car_activity_take_photo), getResources().getString(R.string.add_car_activity_select_photo), getResources().getString(R.string.add_car_activity_delete_photo)};
+
         getImageFrom.setItems(opsChars, new android.content.DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (which == 0) {
+                if (which == TAKE_PHOTO) {
                     takePhoto();
-                } else if (which == 1) {
-                    selectFromGallerty();
-                } else if (which == 2) {
+                } else if (which == SELECT_PHOTO) {
+                    selectImageFromGallery();
+                } else if (which == DELETE_PHOTO) {
                     deletePhoto();
                 }
                 dialog.dismiss();
@@ -236,7 +251,7 @@ public class AddCarActivity extends Activity implements OnClickListener {
         return intent;
     }
 
-    private void selectFromGallerty() {
+    private void selectImageFromGallery() {
         Intent i = new Intent(
                 Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
@@ -276,8 +291,8 @@ public class AddCarActivity extends Activity implements OnClickListener {
 
         File storageDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
-        storageDir = new File(storageDir,getResources().getString(R.string.app_name));
-        if(!storageDir.exists()){
+        storageDir = new File(storageDir, getResources().getString(R.string.app_name));
+        if (!storageDir.exists()) {
             storageDir.mkdirs();
         }
         File image = new File(storageDir, imageFileName + ".jpg");

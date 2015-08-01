@@ -82,10 +82,15 @@ public class UpdateCarActivity extends Activity {
 
         mCarManager = new CarManager(this);
         initViews();
+
+        if (savedInstanceState == null) {
+            populateFields();
+        }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
         if (mCurrentPhotoLarge != null) {
             outState.putParcelable(PHOTO, mCurrentPhotoLarge);
         }
@@ -93,6 +98,7 @@ public class UpdateCarActivity extends Activity {
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState.containsKey(PHOTO)) {
             mCurrentPhotoLarge = savedInstanceState.getParcelable(PHOTO);
             ImageView im = (ImageView) findViewById(R.id.img_addcar_car);
@@ -107,7 +113,9 @@ public class UpdateCarActivity extends Activity {
         mMileageUnit = (TextView) findViewById(R.id.txt_carupdate_unit);
         mTypeSpinner = (Spinner) findViewById(R.id.spinner_carupdate_types);
         mImgCarPhoto = (ImageView) findViewById(R.id.img_addcar_car);
+    }
 
+    private void populateFields() {
         mNick.setText(mCar.getNick());
         mManufacturer.setText(mCar.getTypeName());
         mMileage.setText(mCar.getStartMileage().toString());
@@ -117,22 +125,71 @@ public class UpdateCarActivity extends Activity {
             mImgCarPhoto.setImageBitmap(mCar.getImage());
             mCurrentPhotoLarge = mCar.getImage();
         }
+    }
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mCarManager != null) {
+            mCarManager.close();
+        }
+    }
+
+    @Override
+    public Intent getParentActivityIntent() {
+        Intent intent = new Intent(this, ListCarsActivity.class);
+        intent.putExtra(ListCarsActivity.FORCE_SHOW_LIST_CARS, true);
+        return intent;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_PICTURE) {
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                Cursor cursor = getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                mCurrentPhotoPath = cursor.getString(columnIndex);
+                cursor.close();
+                performCrop();
+            }
+            if (requestCode == REQUEST_TAKE_PHOTOS) {
+                performCrop();
+            }
+            if (requestCode == REQUEST_PIC_CROP) {
+                setPictureLarge();
+            }
+        }
     }
 
     public void onCarImageBtnClick(View v) {
+        final int TAKE_PHOTO = 0;
+        final int SELECT_PHOTO = 1;
+        final int DELETE_PHOTO = 2;
+
+        final CharSequence[] opsWithDelete = {getResources().getString(R.string.add_car_activity_take_photo), getResources().getString(R.string.add_car_activity_select_photo),getResources().getString(R.string.add_car_activity_delete_photo)};
+        final CharSequence[] opsWithOutDelete = {getResources().getString(R.string.add_car_activity_take_photo), getResources().getString(R.string.add_car_activity_select_photo)};
+
+        final CharSequence[] opsChars = mCurrentPhotoLarge == null ? opsWithOutDelete : opsWithDelete;
+
         AlertDialog.Builder getImageFrom = new AlertDialog.Builder(this);
         getImageFrom.setTitle("Select:");
-        final CharSequence[] opsChars = {getResources().getString(R.string.add_car_activity_take_photo), getResources().getString(R.string.add_car_activity_select_photo), getResources().getString(R.string.add_car_activity_delete_photo)};
+
         getImageFrom.setItems(opsChars, new android.content.DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (which == 0) {
+                if (which == TAKE_PHOTO) {
                     takePhoto();
-                } else if (which == 1) {
+                } else if (which == SELECT_PHOTO) {
                     selectFromGallerty();
-                } else if (which == 2) {
+                } else if (which == DELETE_PHOTO) {
                     deletePhoto();
                 }
                 dialog.dismiss();
@@ -347,46 +404,6 @@ public class UpdateCarActivity extends Activity {
         alertDialog.show();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mCarManager != null) {
-            mCarManager.close();
-        }
-    }
-
-    @Override
-    public Intent getParentActivityIntent() {
-        Intent intent = new Intent(this, ListCarsActivity.class);
-        intent.putExtra(ListCarsActivity.FORCE_SHOW_LIST_CARS, true);
-        return intent;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_PICTURE) {
-                Uri selectedImage = data.getData();
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-
-                Cursor cursor = getContentResolver().query(selectedImage,
-                        filePathColumn, null, null, null);
-                cursor.moveToFirst();
-
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                mCurrentPhotoPath = cursor.getString(columnIndex);
-                cursor.close();
-                performCrop();
-            }
-            if (requestCode == REQUEST_TAKE_PHOTOS) {
-                performCrop();
-            }
-            if (requestCode == REQUEST_PIC_CROP) {
-                setPictureLarge();
-            }
-        }
-    }
-
     private void setPictureLarge() {
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         bmOptions.inJustDecodeBounds = false;
@@ -402,8 +419,8 @@ public class UpdateCarActivity extends Activity {
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
-        storageDir = new File(storageDir,getResources().getString(R.string.app_name));
-        if(!storageDir.exists()){
+        storageDir = new File(storageDir, getResources().getString(R.string.app_name));
+        if (!storageDir.exists()) {
             storageDir.mkdirs();
         }
 
@@ -413,6 +430,7 @@ public class UpdateCarActivity extends Activity {
         mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
+
     private void performCrop() {
         Intent cropIntent = new Intent("com.android.camera.action.CROP");
 

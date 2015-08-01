@@ -2,4 +2,8 @@
 <resources>
     <color name="light_grey">#f3f3f3</color>
     <color name="white">#ffffff</color>
+    <color name="app_green">@android:color/holo_green_light</color>
+    <color name="app_green_dark">@android:color/holo_green_dark</color>
+    <color name="app_orange">@android:color/holo_orange_dark</color>
+    <color name="app_orange_dark">#FF5512</color>
 </resources>
