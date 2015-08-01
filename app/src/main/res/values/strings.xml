@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">FeulApp</string>
+    <string name="app_name">FuelApp</string>
     
     <!-- TUNAK DOCASNY BORDELL -->
     <string name="desc_carPic">Car preview - description of image</string>
@@ -69,6 +69,9 @@
     <string name="addCarActivity_Toast_added01">Car</string>
     <string name="addCarActivity_Toast_added02">added</string>
     <string name="addCarActivity_Toast_emptyFields">There are some empty fields above</string>
+    <string name="add_car_activity_take_photo">Take photo</string>
+    <string name="add_car_activity_select_photo">Select photo from gallery</string>
+    <string name="add_car_activity_delete_photo">Delete photo</string>
     
     <string name="list_item_car_txt_avg_symbol">ø</string>
     <string name="listCarsActivity_noCarInTheDatabase">No car in the database. create new one by clicking the add button at the top right</string>

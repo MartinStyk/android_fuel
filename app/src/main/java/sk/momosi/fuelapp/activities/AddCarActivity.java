@@ -5,6 +5,8 @@ import sk.momosi.fuelapp.dbaccess.CarManager;
 import sk.momosi.fuelapp.entities.entitiesImpl.Car;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -39,18 +41,16 @@ public class AddCarActivity extends Activity implements OnClickListener {
     private static final String PHOTO = "photo";
     public static final int REQUEST_PICTURE = 123456789;
     public static final int REQUEST_TAKE_PHOTOS = 98765;
+    public static final int REQUEST_PIC_CROP = 1111;
 
     private String mCurrentPhotoPath;
-    private Bitmap mCurrentPhoto;
-
+    private Bitmap mCurrentPhotoLarge;
     private EditText mTxtNick;
     private EditText mTxtTypeName;
     private EditText mTxtActualMileage;
     private Spinner mTypeSpinner;
     private Spinner mCurrencySpinner;
     private Spinner mDistanceSpinner;
-    private Button mBtnTakePhoto;
-    private Button mBtnSelectPhotoFromGallery;
     private Button mBtnAdd;
     private ImageView mImgCarPhoto;
 
@@ -65,18 +65,19 @@ public class AddCarActivity extends Activity implements OnClickListener {
 
         mCarManager = new CarManager(this);
     }
+
     @Override
-    public void onSaveInstanceState(Bundle outState)
-    {
-        outState.putParcelable(PHOTO, mCurrentPhoto);
+    public void onSaveInstanceState(Bundle outState) {
+        if (mCurrentPhotoLarge != null)
+            outState.putParcelable(PHOTO, mCurrentPhotoLarge);
     }
+
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState)
-    {
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
         if (savedInstanceState.containsKey(PHOTO)) {
-            mCurrentPhoto = savedInstanceState.getParcelable(PHOTO);
-            ImageView im = (ImageView)findViewById(R.id.img_addcar_car);
-            im.setImageBitmap(mCurrentPhoto);
+            mCurrentPhotoLarge = savedInstanceState.getParcelable(PHOTO);
+            ImageView im = (ImageView) findViewById(R.id.img_addcar_car);
+            im.setImageBitmap(mCurrentPhotoLarge);
         }
     }
 
@@ -84,8 +85,6 @@ public class AddCarActivity extends Activity implements OnClickListener {
         this.mTxtNick = (EditText) findViewById(R.id.txt_addcar_nick);
         this.mTxtTypeName = (EditText) findViewById(R.id.txt_type_name);
         this.mTxtActualMileage = (EditText) findViewById(R.id.txt_start_mileage);
-        this.mBtnSelectPhotoFromGallery = (Button) findViewById(R.id.btn_selectphoto);
-        this.mBtnTakePhoto = (Button) findViewById(R.id.btn_takephoto);
         this.mBtnAdd = (Button) findViewById(R.id.btn_add);
         this.mTypeSpinner = (Spinner) findViewById(R.id.spinner_types);
         this.mCurrencySpinner = (Spinner) findViewById(R.id.spinner_currency);
@@ -94,8 +93,7 @@ public class AddCarActivity extends Activity implements OnClickListener {
 
         mTxtActualMileage.setRawInputType(Configuration.KEYBOARD_QWERTY);
 
-        mBtnTakePhoto.setOnClickListener(this);
-        mBtnSelectPhotoFromGallery.setOnClickListener(this);
+        mImgCarPhoto.setOnClickListener(this);
 
         this.mBtnAdd.setOnClickListener(this);
         mTypeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -143,7 +141,7 @@ public class AddCarActivity extends Activity implements OnClickListener {
                         createdCar.setCarType(Car.CarType.valueOf(mTypeSpinner.getSelectedItem().toString()));
                         createdCar.setCarCurrency(Car.CarCurrency.valueOf(mCurrencySpinner.getSelectedItem().toString()));
                         createdCar.setDistanceUnit(Car.CarDistanceUnit.valueOf(mDistanceSpinner.getSelectedItem().toString()));
-                        createdCar.setImage(mCurrentPhoto);
+                        createdCar.setImage(mCurrentPhotoLarge);
 
                         Log.d(TAG, getString(R.string.addCarActivity_LOG_wantToAdd) + " "
                                 + createdCar.getNick() + "-"
@@ -170,15 +168,33 @@ public class AddCarActivity extends Activity implements OnClickListener {
                     Toast.makeText(this, getString(R.string.addCarActivity_Toast_emptyFields), Toast.LENGTH_LONG).show();
                 }
                 break;
-            case R.id.btn_selectphoto:
-                selectFromGallerty();
-                break;
-            case R.id.btn_takephoto:
-                takePhoto();
+            case R.id.img_addcar_car:
+                createChooserDialog();
                 break;
             default:
                 break;
         }
+    }
+
+    public void createChooserDialog() {
+        AlertDialog.Builder getImageFrom = new AlertDialog.Builder(this);
+        getImageFrom.setTitle("Select:");
+        final CharSequence[] opsChars = {getResources().getString(R.string.add_car_activity_take_photo), getResources().getString(R.string.add_car_activity_select_photo), getResources().getString(R.string.add_car_activity_delete_photo)};
+        getImageFrom.setItems(opsChars, new android.content.DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    takePhoto();
+                } else if (which == 1) {
+                    selectFromGallerty();
+                } else if (which == 2) {
+                    deletePhoto();
+                }
+                dialog.dismiss();
+            }
+        });
+        getImageFrom.create().show();
     }
 
     @Override
@@ -186,7 +202,7 @@ public class AddCarActivity extends Activity implements OnClickListener {
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_PICTURE) {
                 Uri selectedImage = data.getData();
-                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
                 Cursor cursor = getContentResolver().query(selectedImage,
                         filePathColumn, null, null, null);
@@ -195,10 +211,14 @@ public class AddCarActivity extends Activity implements OnClickListener {
                 int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                 mCurrentPhotoPath = cursor.getString(columnIndex);
                 cursor.close();
-                setPic();
+                performCrop();
+
             }
             if (requestCode == REQUEST_TAKE_PHOTOS) {
-                setPic();
+                performCrop();
+            }
+            if (requestCode == REQUEST_PIC_CROP) {
+                setPictureLarge();
             }
         }
     }
@@ -244,12 +264,22 @@ public class AddCarActivity extends Activity implements OnClickListener {
         }
     }
 
+    public void deletePhoto() {
+        mCurrentPhotoLarge = null;
+        mImgCarPhoto.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_menu_camera));
+    }
+
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
+
         File storageDir = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES);
+        storageDir = new File(storageDir,getResources().getString(R.string.app_name));
+        if(!storageDir.exists()){
+            storageDir.mkdirs();
+        }
         File image = new File(storageDir, imageFileName + ".jpg");
 
         // Save a file: path for use with ACTION_VIEW intents
@@ -257,27 +287,46 @@ public class AddCarActivity extends Activity implements OnClickListener {
         return image;
     }
 
-    private void setPic() {
-        // Get the dimensions of the View
-        int targetW = mImgCarPhoto.getWidth();
-        int targetH = mImgCarPhoto.getHeight();
-
-        // Get the dimensions of the bitmap
+    private void setPictureLarge() {
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
-
-        // Determine how much to scale down the image
-        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
-
-        // Decode the image file into a Bitmap sized to fill the View
         bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inSampleSize = 1;
         bmOptions.inPurgeable = true;
+        mCurrentPhotoLarge = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+        mImgCarPhoto.setImageBitmap(mCurrentPhotoLarge);
+    }
 
-        mCurrentPhoto = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
-        mImgCarPhoto.setImageBitmap(mCurrentPhoto);
+    private void performCrop() {
+        Intent cropIntent = new Intent("com.android.camera.action.CROP");
+
+        //indicate image type and Uri
+        cropIntent.setDataAndType(Uri.fromFile(new File(mCurrentPhotoPath)), "image/*");
+
+        cropIntent.putExtra("crop", "true");
+        //indicate aspect of desired crop
+        cropIntent.putExtra("aspectX", 16);
+        cropIntent.putExtra("aspectY", 9);
+        //indicate output X and Y
+        cropIntent.putExtra("scaleUpIfNeeded", true);
+        cropIntent.putExtra("outputX", 800);
+        cropIntent.putExtra("outputY", 450);
+        //retrieve data on return
+        cropIntent.putExtra("scale", true);
+        cropIntent.putExtra("return-data", false);
+        //start the activity - we handle returning in onActivityResult
+        File photoFile = null;
+        try {
+            photoFile = createImageFile();
+        } catch (IOException ex) {
+            // Error occurred while creating the File
+        }
+        // Continue only if the File was successfully created
+        if (photoFile != null) {
+            cropIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                    Uri.fromFile(photoFile));
+
+            startActivityForResult(cropIntent, REQUEST_PIC_CROP);
+        }
+
     }
 }

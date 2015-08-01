@@ -248,12 +248,12 @@ public class Car implements Serializable, Cloneable {
     }
 
     private static class DbBitmapUtility {
-
+        private static  byte[] EMPTY_BITMAP = new byte[]{1};
         // convert from bitmap to byte array
         public static byte[] getBytes(Bitmap bitmap) {
 
             if(bitmap == null){
-                return new byte[]{1};
+                return EMPTY_BITMAP;
             }
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -263,8 +263,7 @@ public class Car implements Serializable, Cloneable {
 
         // convert from byte array to bitmap
         public static Bitmap getImage(byte[] image) {
-            byte[]nothing = new byte[]{1};
-            if(image == null || nothing.equals(image)){
+            if(image == null || EMPTY_BITMAP.equals(image)){
                 return null;
             }
 
