@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    android:paddingBottom="5dp">
     <!-- android:layout_height="?android:attr/listPreferredItemHeight"  -->
 
 
@@ -23,7 +24,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:adjustViewBounds="true"
-            android:background="@drawable/gradient" />
+            android:background="@drawable/gradient_selector" />
 
     </FrameLayout>
 
@@ -35,7 +36,7 @@
         <ImageView
             android:id="@+id/img_itemcar_type"
             android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_height="85dp"
             android:layout_alignParentLeft="true"
             android:layout_margin="4dp"
             android:contentDescription="@string/desc_carPic"
