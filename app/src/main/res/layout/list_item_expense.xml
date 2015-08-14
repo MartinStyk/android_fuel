@@ -11,7 +11,7 @@
         android:layout_height="70dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/car_service_big"
+        android:src="@drawable/car_service"
         android:contentDescription="@string/desc_expensePic" />
 
     
